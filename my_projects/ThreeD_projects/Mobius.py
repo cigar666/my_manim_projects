@@ -369,7 +369,6 @@ class Create_Mobius(SpecialThreeDScene):
         #     self.w *= np.log(1/1e-3)/np.log(60)
         #     self.wait(1/15)
         self.wait(4)
-        colors = color_gradient([BLACK, WHITE], 10)
 
 class Cut_heart(SpecialThreeDScene):
 
