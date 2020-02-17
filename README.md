@@ -2,6 +2,7 @@
 ================================
 前言
 ----
+运行该项目中的代码需配置好[manim](https://github.com/3b1b/manim)才能运行<br>
 大部分my_projects和old_projects中的代码生成的动画都用在了我在b站的视频中了（还有些代码还没及时上传）<br>  
 [cigar666的b站主页](https://space.bilibili.com/66806831 '求关注求三连ღ( ´･ᴗ･` )')
 
@@ -19,7 +20,7 @@
 * [10个优雅的勾股定理妙证（上）](https://www.bilibili.com/video/av69391597/ "代码还未上传")<br>
 * [【千粉纪念】用数学的方式比个心](https://www.bilibili.com/video/av65253449/ "代码已上传")<br>
 
-[更多视频...](https://space.bilibili.com/66806831/video '还有很多视频等着你哟')
+[更多视频...](https://space.bilibili.com/66806831/video '更多视频等着你哟')
 
 关于manim的学习和交流
 -----
