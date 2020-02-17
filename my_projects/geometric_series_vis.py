@@ -594,7 +594,7 @@ class Achilles_and_tortoise(Scene):
 
     def construct(self):
 
-        svg_path = 'my_projects\\resource\\svg_files\\'
+        svg_path = 'my_manim_projects\\my_projects\\resource\\svg_files\\'
         number_line = NumberLine(x_min=0, x_max=10, color=WHITE).to_corner(LEFT * 4.5 + DOWN * 5)
 
         achilles = SVGMobject(svg_path + 'Achilles.svg', color=BLUE).scale(1.25).next_to(number_line, UP * 0.8).align_to(number_line, LEFT).shift(LEFT)
@@ -660,7 +660,7 @@ class Plot_achiless_tortoise(GraphScene):
         k_t = (1-2.5/5.5)
         tortoise = self.get_graph(lambda x: 2.5 + x * k_t, x_min=0, x_max=5.5, color=YELLOW)
 
-        svg_path = 'my_projects\\resource\\svg_files\\'
+        svg_path = 'my_manim_projects\\my_projects\\resource\\svg_files\\'
 
         achilles_svg = SVGMobject(svg_path + 'Achilles.svg', color=BLUE, stroke_width=0.15).scale(0.7).move_to(self.coords_to_point(3.25, 2.1))
         tortoise_svg = SVGMobject(svg_path + 'tortoise.svg', color=YELLOW).scale(0.25).move_to(self.coords_to_point(2.4, 4.5))
@@ -883,7 +883,7 @@ class Intro_achilles(Scene):
 
     def construct(self):
 
-        svg_path = 'my_projects\\resource\\svg_files\\'
+        svg_path = 'my_manim_projects\\my_projects\\resource\\svg_files\\'
 
         text_1 = Text('如何证明更一般的情况呢？', font='新蒂小丸子体', color=BLUE).scale(0.9).shift(UP * 1.8)
         text_2 = Text('让我们来回顾一个经典的问题', font='新蒂小丸子体', color=YELLOW).scale(0.7).shift(UP * 0.25)
