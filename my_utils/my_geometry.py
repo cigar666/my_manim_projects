@@ -1,6 +1,9 @@
 from manimlib.constants import *
 from manimlib.mobject.types.vectorized_mobject import VMobject, VGroup
-from manimlib.mobject.geometry import Arc
+from manimlib.mobject.geometry import Arc, Line, Dot, Polygon
+from manimlib.utils.color import color_gradient
+from manimlib.mobject.number_line import DecimalNumber
+from manimlib.mobject.svg.tex_mobject import TexMobject
 
 class Arcs(VGroup):
 
@@ -10,7 +13,6 @@ class Arcs(VGroup):
         'start_angle':0,
         'angle_list': [30 * DEGREES, 60 * DEGREES, 90 * DEGREES],
         'stroke_width': 40,
-
     }
 
     def __init__(self, **kwargs):
