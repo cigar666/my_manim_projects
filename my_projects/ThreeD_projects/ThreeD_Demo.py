@@ -337,3 +337,69 @@ class Wave_of_boxes_02(SpecialThreeDScene):
                 boxes.add(box_ij)
         return boxes
 
+# class Surface_explosion(SpecialThreeDScene):
+#     CONFIG = {
+#         "default_angled_camera_position": {
+#             "phi": 56 * DEGREES,
+#             "theta": -50 * DEGREES,
+#             "distance": 50,
+#             },
+#         }
+#     def construct(self):
+#
+#         self.set_camera_to_default_position()
+#         axes = self.get_axes()
+#         sphere_01 = Sphere(resolution=(20, 40)).scale(1.5)
+#         sphere_02 = Sphere(resolution=(20, 40)).scale(4)
+#
+#         sphere_new, sphere_new_02 = VGroup(), VGroup()
+#         x = np.linspace(0, 799, 800)
+#         shuffle = np.random.shuffle(x)
+#         for i in range(20):
+#             new_j, new_j_02 = VGroup(), VGroup()
+#             for j in range(40):
+#                 new_j.add(sphere_01[int(x[i * 40 + j])])
+#                 new_j_02.add(sphere_02[int(x[i * 40 + j])])
+#             sphere_new.add(new_j)
+#             sphere_new_02.add(new_j_02)
+#
+#         self.add(axes)
+#         self.wait()
+#         # self.play(*[ShowCreation(sphere_new_02[i]) for i in range(20)], run_time=2)
+#         for i in range(20):
+#             self.play(Transform(sphere_new_02[i], sphere_new[i], rate_func=linear), run_time=0.5)
+#
+#         self.wait(2)
+
+class Surface_shrink(SpecialThreeDScene):
+
+    CONFIG = {
+        "default_angled_camera_position": {
+            "phi": 56 * DEGREES,
+            "theta": -50 * DEGREES,
+            "distance": 50,
+            },
+        }
+    def construct(self):
+
+        self.set_camera_to_default_position()
+        axes = self.get_axes()
+        s0, s1 = 40, 1.5
+        sphere = Sphere(resolution=(30, 60)).scale(s0)
+        def update_face(f, dt):
+            if np.sqrt(sum(f.get_center() ** 2)) > s1 + 1e-8:
+                f.set_fill(opacity=1 * (s1/np.sqrt(sum(f.get_center() ** 2))))
+                f.scale((s1/np.sqrt(sum(f.get_center() ** 2))) ** (np.random.random() * 0.09), about_point=ORIGIN)
+            else:
+                f.set_fill(opacity=1)
+        self.add(axes)
+        for face in sphere:
+            face.add_updater(update_face)
+        # self.wait()
+        # self.play(FadeIn(sphere))
+        self.add(sphere)
+        self.wait(5)
+
+
+
+
