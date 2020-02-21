@@ -174,44 +174,166 @@ class Surface_generated_by_rotating(SpecialThreeDScene):
     CONFIG = {
         "default_angled_camera_position": {
             "phi": 65 * DEGREES, # Angle off z axis
-            "theta": -60 * DEGREES, # Rotation about z axis
+            "theta": -75 * DEGREES, # Rotation about z axis
             "distance": 50,
             "gamma": 0,  # Rotation about normal vector to camera
             },
+        'camera_config': {'open_plot_depth': False}
         }
     def construct(self):
-
         self.set_camera_to_default_position()
         axes = self.get_axes()
-        self.var_theta = 0.01
-
+        self.var_theta = 1e-5
         theta = PI / 4 # 直线夹角
-        line_func = lambda y: np.array([1, y, y * np.tan(theta)]) # 母直线
-
-        line = ParametricFunction(line_func, t_min=-2, t_max=2, stroke_color=ORANGE, stroke_width=6)
+        line_func = lambda y: np.array([1, y, y * np.tan(theta)]) # 母直线方程
+        line = ParametricFunction(line_func, t_min=-2, t_max=2, stroke_color=PINK, stroke_width=8, stroke_opacity=0.5)
         surface_func = lambda u, v: complex_to_R3(complex(*line_func(v)[0:2]) * np.exp(1j * u)) + line_func(v)[-1] * OUT
-        surface_by_rotate = ParametricSurface(surface_func, u_min=0, u_max=self.var_theta, v_min=-2, v_max=2,
-                                              checkerboard_colors=None, fill_color=BLUE, fill_opacity=0.8,
-                                              stroke_color=WHITE, stroke_width=2.5)
+        surface_by_rotate = ParametricSurface(surface_func, u_min=0, u_max=self.var_theta, v_min=-2, v_max=2,)
 
-        d_theta = 2 * DEGREES # the rotation angle in each frame
+        d_theta = 1 * DEGREES # the rotation angle in each frame
         def update_surface(s, dt):
             s.become(ParametricSurface(surface_func, u_min=0, u_max=self.var_theta, v_min=-2, v_max=2,
                                        checkerboard_colors=None, fill_color=BLUE, fill_opacity=0.8,
-                                       stroke_color=WHITE, stroke_width=2.5))
-            # TODO 此处的ParametricSurface中添加resolution的更新，使分段数在一开始不至于过密
-
+                                       stroke_color=WHITE, stroke_width=1.6,
+                                       resolution=(1 + int(self.var_theta/DEGREES/4), 15)))
+            # 此处的ParametricSurface中添加了resolution的更新，使分段数在一开始不至于过密
             self.var_theta += d_theta
 
         line.add_updater(lambda l, dt: l.rotate(d_theta, about_point=ORIGIN))
         surface_by_rotate.add_updater(update_surface)
 
         self.add(axes, line, surface_by_rotate)
-        self.wait(12)
+        # 如果是在-pl下渲染，每秒只有15帧，所以24秒才能转一周
+        self.wait(12) # -pm下只需要12秒
+        surface_by_rotate.suspend_updating()
+        line.suspend_updating()
+        self.wait(2)
 
+class Mobius_to_Heartshape(SpecialThreeDScene):
 
+    CONFIG = {
+        "default_angled_camera_position": {
+            "phi": 50 * DEGREES,
+            "theta": -80 * DEGREES,
+            "distance": 50,
+            },
+        'camera_config': {'background_color': WHITE},
+    }
 
+    def construct(self):
 
+        self.set_camera_to_default_position()
+        heart_curve_func = lambda t: (16 * np.sin(t) ** 3 * RIGHT + (13 * np.cos(t) - 5 * np.cos(2 * t) - 3 * np.cos(3 * t) - np.cos(4 * t)) * UP + np.sin(t) * (1 - abs(-t/PI)) ** 2 * 8 * OUT) * 0.21
 
+        r = 0.5
+        heart_shape_mobius = ParametricSurface(lambda u, v: heart_curve_func(u) + v * np.cos(u/2) * np.array([np.cos(u), np.sin(u), 0])
+                                                + v * np.sin(-u/2) * OUT,
+                                               u_min=-PI, u_max=PI, v_min=-r, v_max=r, resolution=(80, 12),
+                                               checkerboard_colors=None, stroke_color=PINK, stroke_opacity=0.6,
+                                               stroke_width=1.5, fill_color=average_color(RED, PINK), fill_opacity=0.8)
+        R = 3.6
+        mobius_surface = ParametricSurface(lambda u, v: R * np.array([np.cos(u), np.sin(u), 0])
+                                                + v * np.cos(u/2) * np.array([np.cos(u), np.sin(u), 0])
+                                                + v * np.sin(u/2) * OUT,
+                                           u_min=-PI/2, u_max=-PI/2 + TAU, v_min=-r, v_max=r, resolution=(80, 10),
+                                           checkerboard_colors=None, stroke_color=PINK, stroke_opacity=0.6,
+                                           stroke_width=1.5, fill_color=BLUE, fill_opacity=0.8).rotate(PI, axis=UP)
 
+        heart_shape_mobius.move_to(mobius_surface)
+
+        # self.play(ShowCreation(heart_curve))
+        # self.wait()
+
+        self.add(mobius_surface)
+        self.wait()
+        self.play(ReplacementTransform(mobius_surface, heart_shape_mobius), run_time=4)
+
+        self.wait(1.)
+
+        rotate_right = lambda m, dt: m.rotate(0.25 * DEGREES, axis=RIGHT)
+        rotate_up = lambda m, dt: m.rotate(0.25 * DEGREES, axis=UP)
+        heart_shape_mobius.add_updater(rotate_right)
+        self.wait(2.5)
+        heart_shape_mobius.remove_updater(rotate_right)
+
+        self.wait(5)
+
+class Box_02(Cube):
+
+    CONFIG = {
+        'pos': ORIGIN,
+        'box_height': 2,
+        'bottom_size': [1, 1]
+    }
+
+    def __init__(self, **kwargs):
+        Cube.__init__(self, **kwargs)
+        self.box_size = np.array([self.bottom_size[0], self.bottom_size[1], self.box_height])
+        self.scale(self.box_size/2)
+        # self.move_to(self.pos + self.box_height * OUT/2)
+        self.move_to(self.pos)
+        self.reset_color_()
+
+    def update_height(self, new_height):
+        self.scale(np.array([1,1, new_height/self.height])) #.shift(OUT * (new_height - self.height)/2)
+        self.height = new_height
+
+    def reset_color_(self):
+        colors = color_gradient([WHITE, self.get_color(), BLACK], 11)
+        self[0].set_fill(color=colors[7])
+        self[1].set_fill(color=colors[4])
+        self[2].set_fill(color=colors[7])
+        self[3].set_fill(color=colors[3])
+        self[4].set_fill(color=colors[5])
+        self[5].set_fill(color=colors[6])
+
+class Wave_of_boxes_02(SpecialThreeDScene):
+
+    CONFIG = {
+        "default_angled_camera_position": {
+            "phi": 56 * DEGREES,
+            "theta": -50 * DEGREES,
+            "distance": 50,
+            },
+        'camera_config': {'background_color': DARK_GRAY,
+                          'open_plot_depth': False},
+        }
+
+    def construct(self):
+
+        self.set_camera_to_default_position()
+
+        self.var_phi = 0
+        a = 0.1
+        amp = 0.9 # amplitude
+        self.wave_func = lambda u, v: np.array([u, v, amp + 0.0001  + amp * np.sin((u ** 2 + v ** 2)/2 + self.var_phi) * np.exp(-a * (np.sqrt(u ** 2 + v ** 2)))])
+        # self.wave_func = lambda u, v: np.array([u, v, 2.1 + 2 * np.sin(u ** 2 + v ** 2)])
+
+        self.box_bottom = [0.18, 0.18]
+        self.colors = color_gradient([RED, YELLOW, GREEN_D, BLUE, PINK, RED_D], 100)
+
+        boxes = self.create_boxes(gap=0.06)
+
+        delta_theta = 1 * DEGREES
+        def update_boxes(b, dt):
+            b.become(self.create_boxes(gap=0.06))
+            self.var_phi -= -delta_theta # 网上看到的牛逼写法，很有意思就用了
+
+        boxes.add_updater(update_boxes)
+        self.add(boxes)
+        self.wait(16)
+
+    def create_boxes(self, x_range=4, y_range=4, gap=0.05):
+        boxes = VGroup()
+        a, b = self.box_bottom[0] + gap * 2, self.box_bottom[1] + gap * 2
+        m = int(y_range * 2/b)
+        n = int(x_range * 2/a)
+        for i in range(m):
+            for j in range(n):
+                xyz = a * j * RIGHT + b * i * UP + (x_range - a/2) * LEFT + (y_range - b/2) * DOWN
+                box_ij = Box_02(pos=xyz, box_height=self.wave_func(xyz[0], xyz[1])[-1], color=BLUE,
+                               bottom_size=self.box_bottom, fill_opacity=1,
+                               fill_color=self.colors[int(np.sqrt(sum(xyz **2))/np.sqrt(x_range ** 2 + y_range ** 2) * 100)])
+                boxes.add(box_ij)
+        return boxes
 
