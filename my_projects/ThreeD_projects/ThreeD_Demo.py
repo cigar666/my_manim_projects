@@ -395,11 +395,5 @@ class Surface_shrink(SpecialThreeDScene):
         self.add(axes)
         for face in sphere:
             face.add_updater(update_face)
-        # self.wait()
-        # self.play(FadeIn(sphere))
         self.add(sphere)
         self.wait(5)
-
-
-
-

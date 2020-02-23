@@ -27,7 +27,7 @@ class Mobius_Strip(SpecialThreeDScene):
         ball = Sphere(checkerboard_colors=None, fill_color=RED).set_height(0.48)
         self.time = 0
         def update_ball(b, dt):
-            self.time+=dt/2
+            self.time += dt/2
             b.move_to(ball_path(self.time))
 
         self.play(ShowCreation(mobius_surface), run_time=2)
@@ -151,7 +151,7 @@ class Mobius_to_Heartshape(SpecialThreeDScene):
 
         heart_curve_func = lambda t: (16 * np.sin(t) ** 3 * RIGHT + (13 * np.cos(t) - 5 * np.cos(2 * t) - 3 * np.cos(3 * t) - np.cos(4 * t)) * UP + np.sin(t) * (1 - abs(-t/PI)) ** 2 * 8 * OUT) * 0.21
 
-        heart_curve = ParametricFunction(heart_curve_func, t_min=-PI, t_max=PI, color=RED, stroke_width=10, stroke_opacity=0.9)
+        # heart_curve = ParametricFunction(heart_curve_func, t_min=-PI, t_max=PI, color=RED, stroke_width=10, stroke_opacity=0.9)
 
         r = 0.5
         heart_shape_mobius = ParametricSurface(lambda u, v: heart_curve_func(u) + v * np.cos(u/2) * np.array([np.cos(u), np.sin(u), 0])
@@ -424,5 +424,8 @@ class Spiral_Curve_test(Scene):
         self.wait(5)
         spiral.suspend_updating()
         self.wait(2)
+
+
+
 
 

@@ -19,7 +19,6 @@ class Gear_outline(VMobject):
         theta_top = np.tan(np.arccos(self.rb/(self.rb + self.tooth_hight))) - np.arccos(self.rb/(self.rb + self.tooth_hight))
         alpha_max = np.arccos(self.rb/(self.rb + self.tooth_hight))
 
-
         alphas = np.linspace(0, alpha_max, self.curve_segments)
         curve01_radius = self.rb/np.cos(alphas)
         curve01_thetas = np.tan(alphas) - alphas - theta_pitch - TAU/self.tooth_num/2/2

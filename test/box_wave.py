@@ -123,9 +123,9 @@ class Wave_of_boxes_02(SpecialThreeDScene):
         self.set_camera_to_default_position()
 
         self.var_phi = 0
-        a = 0.15
-        amp = 0.8 # amplitude
-        self.wave_func = lambda u, v: np.array([u, v, amp + 0.01 + amp * np.sin((u ** 2 + v ** 2)/2 + self.var_phi) * np.exp(-a * (np.sqrt(u ** 2 + v ** 2)))])
+        a = 0.1
+        amp = 0.9 # amplitude
+        self.wave_func = lambda u, v: np.array([u, v, amp + 0.0001  + amp * np.sin((u ** 2 + v ** 2)/2 + self.var_phi) * np.exp(-a * (np.sqrt(u ** 2 + v ** 2)))])
         # self.wave_func = lambda u, v: np.array([u, v, 2.1 + 2 * np.sin(u ** 2 + v ** 2)])
 
         self.box_bottom = [0.18, 0.18]
@@ -133,14 +133,53 @@ class Wave_of_boxes_02(SpecialThreeDScene):
 
         boxes = self.create_boxes(gap=0.06)
 
-        delta_theta = 2 * DEGREES
+        delta_theta = 1 * DEGREES
         def update_boxes(b, dt):
             b.become(self.create_boxes(gap=0.06))
             self.var_phi -= -delta_theta # 网上看到的牛逼写法，很有意思就用了
 
         boxes.add_updater(update_boxes)
         self.add(boxes)
-        self.wait(12)
+        self.wait(16)
+
+    def create_boxes(self, x_range=4, y_range=4, gap=0.05):
+        boxes = VGroup()
+        a, b = self.box_bottom[0] + gap * 2, self.box_bottom[1] + gap * 2
+        m = int(y_range * 2/b)
+        n = int(x_range * 2/a)
+        for i in range(m):
+            for j in range(n):
+                xyz = a * j * RIGHT + b * i * UP + (x_range - a/2) * LEFT + (y_range - b/2) * DOWN
+                box_ij = Box_02(pos=xyz, box_height=self.wave_func(xyz[0], xyz[1])[-1], color=BLUE,
+                               bottom_size=self.box_bottom, fill_opacity=1,
+                               fill_color=self.colors[int(np.sqrt(sum(xyz **2))/np.sqrt(x_range ** 2 + y_range ** 2) * 100)])
+                boxes.add(box_ij)
+        return boxes
+
+class Wave_of_boxes_2D(Scene):
+
+    def construct(self):
+
+        self.var_phi = 0
+        a = 0.1
+        amp = 0.9 # amplitude
+        self.wave_func = lambda u, v: np.array([u, v, amp + 0.0001  + amp * np.sin((u ** 2 + v ** 2)/2 + self.var_phi) * np.exp(-a * (np.sqrt(u ** 2 + v ** 2)))])
+        # self.wave_func = lambda u, v: np.array([u, v, 2.1 + 2 * np.sin(u ** 2 + v ** 2)])
+
+        self.box_bottom = [0.18, 0.18]
+        self.colors = color_gradient([RED, YELLOW, GREEN_D, BLUE, PINK, RED_D], 100)
+
+        boxes = self.create_boxes(gap=0.06)
+
+        delta_theta = 1 * DEGREES
+        def update_boxes(b, dt):
+            b.become(self.create_boxes(gap=0.06))
+            self.var_phi -= -delta_theta # 网上看到的牛逼写法，很有意思就用了
+
+        # boxes.add_updater(update_boxes)
+        self.add(boxes)
+        self.wait(16)
+
 
     def create_boxes(self, x_range=4, y_range=4, gap=0.05):
         boxes = VGroup()
