@@ -119,4 +119,36 @@ class Test_Right_Angle(Scene):
 
         self.wait(2)
 
+## test my_text ##
+from my_manim_projects.my_utils.my_text import MyText
+
+class Test_mytext(Scene):
+
+    def construct(self):
+
+        color_dict = {'R': PINK, 'd': YELLOW, 'r': ORANGE, '\\theta': BLUE, '\\over': WHITE,
+              't': BLUE, 'e': GREEN, 'i': RED, '\\sin': WHITE, '\\cos': WHITE}
+
+        font_list = ['Comic Sans MS', '庞门正道标题体', 'Consolas', 'SWGothe', 'Rough___Dusty_Chalk',
+                     'SWScrps', '新蒂小丸子体']
+
+        origin_formula = TexMobject('f', '(', 't', ')', '=', 'x', '(', 't', ')', '+', 'y', '(', 't', ')', 'i', '=',
+                             '(', 'R', '-', 'r', ')', 'e^{', 'i', 't}', '+', 'd', 'e^{', '-', 'i', '{R', '-',
+                             'r', '\\over', 'r}', 't}').scale(1)\
+                        .set_color_by_tex_to_color_map(color_dict).to_corner(LEFT * 2 + UP * 1.5)
+        formulas = VGroup(origin_formula)
+
+        for i in range(len(font_list)):
+            formula_i = MyText('f', '(', 't', ')', '=', 'x', '(', 't', ')', '+', 'y', '(', 't', ')', 'i', '=',
+                             '(', 'R', '-', 'r', ')', 'e^{', 'i', 't}', '+', 'd', 'e^{', '-', 'i', '{R', '-',
+                             'r', '\\over', 'r}', 't}', default_font=font_list[i], tex_scale_factor=0.75)
+            formula_i.set_color_by_tex_to_color_map(color_dict)
+            replace_dict = {'e^{': 'e', 't}': 't', '{R': 'R', 'r}': 'r', '\\over': '-'}
+            new_formula = formula_i.get_new_font_texs(replace_dict)
+            new_formula.to_corner(LEFT * 2 + UP * 1.5).shift(DOWN * 0.8 * (i+1))
+            formulas.add(new_formula)
+
+        self.add(formulas)
+        self.wait(5)
+
 
