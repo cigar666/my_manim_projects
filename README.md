@@ -2,10 +2,12 @@
 ================================
 前言
 ----
-运行该项目中的代码需配置好[manim](https://github.com/3b1b/manim)才能运行，[我用的manim版本](https://github.com/cigar666/manim)在3b1b的基础上略有删改<br>
+运行该项目中的代码需配置好[manim](https://github.com/3b1b/manim)才能运行，[我用的manim版本](https://github.com/cigar666/manim)在[3b1b的manim](https://github.com/3b1b/manim)的基础上略有删改<br>
 其中一些素材和地址等由于某些文件的移动path可能有点不对，old_projects中的文件对应的manim版本较老（需要改改才能运行）<br>  
 此外，由于编程水平有限，加上对Grant的代码理解有限，代码有时会出现不太好的实现方式，敬请谅解<br>
-大部分my_projects和old_projects中的代码生成的动画都用在了我在b站的视频中了（还有些代码还没及时上传）<br>
+
+该项目中的大部分my_projects和old_projects中的代码生成的动画都用在了我[b站的视频](https://space.bilibili.com/66806831/video)中了（还有些代码还没及时上传）<br>
+
 [cigar666的b站主页](https://space.bilibili.com/66806831 '求关注求三连ღ( ´･ᴗ･` )')
 
 一些视频链接如下：
