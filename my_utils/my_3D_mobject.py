@@ -138,6 +138,21 @@ class MyBoxes(VGroup):
     def set_mask_array(self, mask):
         self.mask_array = mask
 
+    def divide_by_height(self, h_min=1e-4):
+        self.high_boxes, self.short_boxes = VGroup(), VGroup()
+        for box in self:
+            if box.get_depth() < h_min:
+                self.short_boxes.add(box)
+            else:
+                self.high_boxes.add(box)
+        return self.high_boxes, self.short_boxes
+
+    def get_high_boxes(self, h=1e-2):
+        return self.divide_by_height(h_min=h)[0]
+
+    def get_short_boxes(self, h=1e-2):
+        return self.divide_by_height(h_min=h)[1]
+
     def apply_mask(self):
 
         m, n = self.resolution[0], self.resolution[1]
@@ -146,4 +161,6 @@ class MyBoxes(VGroup):
                 if self.mask_array[i, j] == 1.: # if self.mask_array[i, j]:
                     self[i*n+j].set_fill(opacity=0)
 
+    def set_mask_by_min_height(self, min_height):
 
+        pass
