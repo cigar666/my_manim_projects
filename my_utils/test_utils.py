@@ -87,7 +87,6 @@ class Point_move_along_sinX(Scene):
         self.wait(2)
 
 ## test Right_angle and Dashed_Circle
-
 class Test_Right_Angle(Scene):
 
     def construct(self):
@@ -121,7 +120,6 @@ class Test_Right_Angle(Scene):
 
 ## test my_text ##
 from my_manim_projects.my_utils.my_text import MyText
-
 class Test_mytext(Scene):
 
     def construct(self):
@@ -150,5 +148,21 @@ class Test_mytext(Scene):
 
         self.add(formulas)
         self.wait(5)
+
+## test Trail ##
+
+class Test_trail(Scene):
+
+    def construct(self):
+
+        dot = Dot(color=BLUE).shift(LEFT)
+        trail = Trail(dot, trail_color=BLUE_B, max_width=4)
+        trail.start_trace()
+
+        self.add(trail)
+        self.play(Rotating(dot, about_point=ORIGIN, run_time=4))
+
+        self.wait()
+
 
 
