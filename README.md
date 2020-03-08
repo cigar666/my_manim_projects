@@ -12,7 +12,7 @@
 
 一些视频链接如下：
 ------
-* [三体运动模拟（含行星）](https://www.bilibili.com/video/av9438075/ "代码已上传")<br>
+* [三体运动模拟（含行星）](https://www.bilibili.com/video/av94380754/ "代码已上传")<br>
 * [小学生也能听懂的摆线拱面积计算](https://www.bilibili.com/video/av92747585/ "代码已上传")<br>
 * [均值不等式链的几何证明](https://www.bilibili.com/video/av87824738/ "代码已上传")<br>
 * [美妙的万花尺与旋轮线（下）](https://www.bilibili.com/video/av83994732/ "代码已上传")<br>
