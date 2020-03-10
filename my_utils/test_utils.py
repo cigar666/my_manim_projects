@@ -164,5 +164,18 @@ class Test_trail(Scene):
 
         self.wait()
 
+class Test_trail_02(Scene):
+
+    def construct(self):
+
+        poly = RegularPolygon(5).scale(1.6)
+        dot = Dot().set_fill(opacity=0).move_to(poly.get_start())
+        trail_dot = Trail(dot, rate_func=lambda t: 1, trail_color=[RED, ORANGE, YELLOW, GREEN, BLUE, PINK, RED],
+                          nums=300, max_width=2.5)
+        trail_dot.start_trace()
+        self.add(trail_dot.trail)
+        self.play(MoveAlongPath(dot, poly), run_time=10)
+        self.wait(4)
+
 
 

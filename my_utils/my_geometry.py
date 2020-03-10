@@ -151,9 +151,11 @@ class Trail(VGroup):
         self.path_xyz = []
         self.add(self.trail)
         self.pos_old = self[0].get_center()
+        if type(self.trail_color) != str:
+            self.colors = color_gradient(self.trail_color, self.nums)
 
     def update_trail(self, trail):
-        err=1e-9
+        err=1e-5
         pos_new = self[0].get_center()
         pos_old = self.pos_old
         self.pos_old = pos_new
@@ -194,16 +196,20 @@ class Trail(VGroup):
         self.get_path_xyz()
         if len(self.path_xyz) > 1:
             for i in range(len(self.path_xyz)-1):
-                path.add(Line(self.path_xyz[i], self.path_xyz[i+1], stroke_color=self.trail_color,
-                              stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(i/len(self.path_xyz)),
-                              stroke_width=self.max_width * self.rate_func(i/len(self.path_xyz))))
+                if type(self.trail_color) == str:
+                    path.add(Line(self.path_xyz[i], self.path_xyz[i+1], stroke_color=self.trail_color,
+                                  stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(i/len(self.path_xyz)),
+                                  stroke_width=self.max_width * self.rate_func(i/len(self.path_xyz))))
+                else:
+                    path.add(Line(self.path_xyz[i], self.path_xyz[i+1], stroke_color=self.colors[i],
+                                  stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(i/len(self.path_xyz)),
+                                  stroke_width=self.max_width * self.rate_func(i/len(self.path_xyz))))
                 # print('i = %d' % i)
                 # # print(self.path_xyz)
                 # print(self.color)
                 # print(self.rate_func(i/len(self.path_xyz)))
                 # print(self.max_width*self.rate_func(i/len(self.path_xyz)))
         return path
-
 
     def update_path(self, trail):
         trail.become(self.create_path())
@@ -212,11 +218,13 @@ class Trail(VGroup):
         # self.trail.add_updater(self.update_trail)
         self.trail.add_updater(self.update_path)
 
+    def stop_trace(self):
+        self.trial.remove_updater(self.update_path)
+
 class Sun(VGroup):
     CONFIG = {
         'colors': [RED_B, ORANGE, WHITE],
         # 'opacity_func': lambda t: 1.1 - t ** 0.24 if t < 0.1 else 1 - 0.95 * t ** 0.18 - 0.05 * t ** 0.05,
-
         # 'opacity_func': lambda t: 1000 * (1 - t ** 0.00012) if t < 0.1 else 0.75 * (1 - t ** 0.21),
         # 'opacity_func': lambda t: 1250 * (1 - abs(t-0.006) ** 0.0001) if t < 0.12 else 0.72 * (1 - t ** 0.2),
         'opacity_func': lambda t: 1500 * (1 - abs(t-0.009) ** 0.0001),
