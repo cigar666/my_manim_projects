@@ -162,7 +162,9 @@ class Test_trail(Scene):
         self.add(trail)
         self.play(Rotating(dot, about_point=ORIGIN, run_time=4))
 
-        self.wait()
+        trail.retrieve_trail(rate=5)
+
+        self.wait(2)
 
 class Test_trail_02(Scene):
 
