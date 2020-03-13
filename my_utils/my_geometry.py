@@ -154,35 +154,35 @@ class Trail(VGroup):
         if type(self.trail_color) != str:
             self.colors = color_gradient(self.trail_color, self.nums)
 
-    def update_trail(self, trail):
-        err=1e-5
-        pos_new = self[0].get_center()
-        pos_old = self.pos_old
-        self.pos_old = pos_new
-        # if np.sqrt(sum((pos_new - pos_old) ** 2))>err:
-        if sum(abs(pos_new - pos_old))>err:
-            trail.add(Line(pos_old, pos_new, color=self.trail_color, plot_depth=0))
+    # def update_trail(self, trail):
+    #     err=1e-5
+    #     pos_new = self[0].get_center()
+    #     pos_old = self.pos_old
+    #     self.pos_old = pos_new
+    #     # if np.sqrt(sum((pos_new - pos_old) ** 2))>err:
+    #     if sum(abs(pos_new - pos_old))>err:
+    #         trail.add(Line(pos_old, pos_new, color=self.trail_color, plot_depth=0))
+    #
+    #     if len(trail) > self.nums:
+    #         trail.remove(trail[0])
+    #         # for k in range(self.nums):
+    #         #     trail[k].set_stroke(width=self.max_width * self.rate_func(k/self.nums),
+    #         #                         opacity=self.rate_func(k/self.nums))
+    #         for l in trail:
+    #             k = trail.submobjects.index(l)
+    #             l.set_stroke(width=self.max_width * self.rate_func(k/self.nums),
+    #                          opacity=self.rate_func(k/self.nums))
+    #
+    #     if len(trail) <= self.nums and len(trail) > 0:
+    #         # for k in range(len(trail)):
+    #         #     trail[k].set_stroke(width=self.max_width * self.rate_func(k/len(trail)),
+    #         #                         opacity=self.rate_func(k/len(trail)))
+    #         for l in trail:
+    #             k = trail.submobjects.index(l)
+    #             l.set_stroke(width=self.max_width * self.rate_func(k/len(trail)),
+    #                          opacity=self.rate_func(k/len(trail)))
 
-        if len(trail) > self.nums:
-            trail.remove(trail[0])
-            # for k in range(self.nums):
-            #     trail[k].set_stroke(width=self.max_width * self.rate_func(k/self.nums),
-            #                         opacity=self.rate_func(k/self.nums))
-            for l in trail:
-                k = trail.submobjects.index(l)
-                l.set_stroke(width=self.max_width * self.rate_func(k/self.nums),
-                             opacity=self.rate_func(k/self.nums))
-
-        if len(trail) <= self.nums and len(trail) > 0:
-            # for k in range(len(trail)):
-            #     trail[k].set_stroke(width=self.max_width * self.rate_func(k/len(trail)),
-            #                         opacity=self.rate_func(k/len(trail)))
-            for l in trail:
-                k = trail.submobjects.index(l)
-                l.set_stroke(width=self.max_width * self.rate_func(k/len(trail)),
-                             opacity=self.rate_func(k/len(trail)))
-
-    def get_path_xyz(self, err=1e-9):
+    def get_path_xyz(self, err=1e-6):
         pos_new = self[0].get_center()
         pos_old = self.pos_old
         if sum(abs(pos_new - pos_old))>err:
@@ -198,11 +198,11 @@ class Trail(VGroup):
             for i in range(len(self.path_xyz)-1):
                 if type(self.trail_color) == str:
                     path.add(Line(self.path_xyz[i], self.path_xyz[i+1], stroke_color=self.trail_color,
-                                  stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(i/len(self.path_xyz)),
+                                  stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(2-i/len(self.path_xyz)),
                                   stroke_width=self.max_width * self.rate_func(i/len(self.path_xyz))))
                 else:
                     path.add(Line(self.path_xyz[i], self.path_xyz[i+1], stroke_color=self.colors[i],
-                                  stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(i/len(self.path_xyz)),
+                                  stroke_opacity=self.rate_func(i/len(self.path_xyz)), plot_depth=self.rate_func(2-i/len(self.path_xyz)),
                                   stroke_width=self.max_width * self.rate_func(i/len(self.path_xyz))))
                 # print('i = %d' % i)
                 # # print(self.path_xyz)
@@ -220,6 +220,24 @@ class Trail(VGroup):
 
     def stop_trace(self):
         self.trial.remove_updater(self.update_path)
+
+    def decrease_trail_num(self, trail, dt):
+        if self.nums > max(self.min_num, 2):
+            if self.nums <= 2:
+                trail.become(VGroup())
+            else:
+                self.nums -= self.rate
+                if self.nums < 2:
+                    self.nums = 2
+                trail.become(self.create_path())
+
+    def retrieve_trail(self, rate=2, min_num=0):
+        # self.stop_trace()
+        self.nums = len(self.trail)
+        self.min_num = min_num
+        self.rate = rate
+        self.trail.add_updater(self.decrease_trail_num)
+
 
 class Sun(VGroup):
     CONFIG = {
