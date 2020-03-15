@@ -1,10 +1,12 @@
 from manimlib.constants import *
 from manimlib.mobject.types.vectorized_mobject import VMobject, VGroup
-from manimlib.mobject.geometry import Arc, Line, Dot, Polygon
+from manimlib.mobject.geometry import Arc, Line, Dot, Polygon, Sector, Circle
 from manimlib.utils.color import color_gradient
 from manimlib.mobject.number_line import DecimalNumber
 from manimlib.mobject.svg.tex_mobject import TexMobject
+from manimlib.mobject.svg.text_mobject import Text
 from manimlib.utils.rate_functions import linear, smooth
+from manimlib.utils.space_ops import *
 
 class Arcs(VGroup):
 
@@ -238,7 +240,6 @@ class Trail(VGroup):
         self.rate = rate
         self.trail.add_updater(self.decrease_trail_num)
 
-
 class Sun(VGroup):
     CONFIG = {
         'colors': [RED_B, ORANGE, WHITE],
@@ -342,3 +343,102 @@ class Three_Body(VGroup):
 
     def start_move(self):
         self.add_updater(self.update_three_body)
+
+class MySectors(VGroup):
+    CONFIG = {
+        'stroke_width': 0,
+        'fill_opacity': 1,
+        'inner_radius': 1.6,
+        # 'outer_radius': [],
+        'gap': 0.025,
+        'start_direction': UP,
+        'values': [1,2,3],
+        'labels': None,
+        # 'data': {'labels': 1.23},
+        'unit': None,
+        # 'data_2d': None,
+        'outer_radius_func': lambda t: t/10 + 0.32,
+        'label_font': '思源黑体 Bold',
+        'center': ORIGIN,
+    }
+
+    def __init__(self, **kwargs):
+        VGroup.__init__(self, **kwargs)
+        self.colors = color_gradient([ORANGE, RED, PINK, BLUE, GREEN, YELLOW], len(self.values))
+        self.sectors, self.labels_group = VGroup(), VGroup()
+        self.sectors = self.create_sectors()
+        if not self.labels == None:
+            self.labels_group = self.create_label()
+        self.add(self.sectors, self.labels_group)
+
+
+    def create_sectors(self):
+        angle = TAU/len(self.values)
+        colors = self.colors
+        start_a = np.angle(complex(*self.start_direction[0:2]))
+
+        for i in range(len(self.values)):
+            r_i = self.inner_radius + self.outer_radius_func(self.values[i])
+            sector_i = Sector(arc_center=self.center, inner_radius=self.inner_radius, outer_radius=r_i,
+                              stroke_width=self.stroke_width, start_angle=start_a + i * angle,
+                              angle=angle * (1 - self.gap), color=colors[i], fill_opacity=self.fill_opacity)
+            self.sectors.add(sector_i)
+        return self.sectors
+
+    def create_label(self):
+        for tex, value in zip(self.labels, self.values):
+            i = self.labels.index(tex)
+            r = self.inner_radius + self.outer_radius_func(self.values[i])
+            size = TAU * r / len(self.values) * 0.2
+            tex_i = Text(tex, font=self.label_font, color=WHITE, plot_depth=1).set_height(size)
+            value_i = Text(str(value), font=self.label_font, color=WHITE, plot_depth=1).set_height(size).next_to(tex_i, DOWN * 0.64 * size)
+            if not self.unit == None:
+                unit_i = Text(self.unit, font=self.label_font, color=WHITE, plot_depth=1).set_height(size).next_to(value_i, RIGHT * 0.2 * size)
+                VGroup(value_i, unit_i).next_to(tex_i, DOWN * 0.64 * size)
+                label_i = VGroup(tex_i, value_i, unit_i)
+            else:
+                label_i = VGroup(tex_i, value_i)
+            angle = TAU/len(self.values)
+            start_a = np.angle(complex(*self.start_direction[0:2]))
+            self.labels_group.add(label_i.shift(self.center + complex_to_R3((r-size * 1.2-r*0.05) * np.exp(1j * (start_a + (i + 0.5) * TAU/len(self.values))))))
+        return self.labels_group
+
+    def create_cicles(self, color=BLUE_A):
+
+        circle_01 = Circle(radius=self.inner_radius, stroke_width=12, stroke_color=color, plot_depth=2.5)
+        circle_02 = Circle(radius=self.inner_radius - 0.15, stroke_width=4, stroke_color=color, plot_depth=2.5)
+        self.circles = VGroup(circle_01, circle_02).move_to(self.center)
+        self.add(self.circles)
+        return self.circles
+
+    def create_circle_shadow(self, width=32, num=50, color=BLUE_A):
+        self.shadow = VGroup(*[Circle(radius=self.inner_radius + (i+0.5) * width/100/num, stroke_width=width/num, stroke_color=color,
+                                      stroke_opacity=(i-num) ** 2 * 1/num/num, plot_depth=2) for i in range(num+1)]).move_to(self.center)
+        self.add(self.shadow)
+        return self.shadow
+
+class New_Polygon(VGroup):
+
+    CONFIG = {
+        'stroke_color': BLUE,
+        'stroke_width': 4,
+        'fill_color': BLUE_B,
+        'fill_opacity': 0,
+    }
+
+    def __init__(self, *vertices, **kwargs):
+        VGroup.__init__(self, **kwargs)
+        self.lines, self.dots = VGroup(plot_depth=1), VGroup(plot_depth=1)
+        self.poly=Polygon(*vertices, fill_color=self.fill_color, fill_opacity=self.fill_opacity, plot_depth=0).set_stroke(width=0)
+        self.add(self.lines, self.dots, self.poly)
+
+        n = len(vertices)
+        for i in range(n):
+            self.lines.add(Line(vertices[i], vertices[(i+1) % n], color=self.stroke_color,
+                                stroke_width=self.stroke_width, plot_depth=2))
+            self.dots.add(Dot(vertices[i], color=self.stroke_color, plot_depth=2).set_height(self.stroke_width/100))
+
+
+
+
+
