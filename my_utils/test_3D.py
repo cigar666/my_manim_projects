@@ -56,30 +56,39 @@ class Boxes_by_image(SpecialThreeDScene):
 
     CONFIG = {
         "default_angled_camera_position": {
-            "phi": 50 * DEGREES,
-            "theta": -45 * DEGREES,
+            "phi": 45 * DEGREES,
+            "theta": -0 * DEGREES,
             "distance": 50,
             },
         }
     def construct(self):
 
         self.set_camera_to_default_position()
-        im = plt.imread(r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\heart.bmp')
-        Z = (1 - im[:, :, 0] / 255) * 10
+        im = plt.imread(r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\china_test_60_45.bmp')
+        Z = 1 - im[:, :, 0]/225 + 1e-6
+        print(Z)
+        Z = (Z - Z.min()) * 4
         Z = Z.T
+        print(len(Z), len(Z[0]))
+        print(Z.min(), Z.max())
 
         # print(Z)
-        boxes = MyBoxes(fill_color=average_color(BLUE_D, GRAY), bottom_size=(0.16, 0.16), resolution=(50, 50))
+        boxes = MyBoxes(fill_color=average_color(BLUE_D, GRAY), bottom_size=(0.18, 0.18), resolution=(60, 45))
         boxes.colors = color_gradient([BLUE_D, YELLOW, ORANGE, RED, RED_D], 110)
 
-        for i in range(3):
-            Z = solve_PDE_onestep(Z)
+        # for i in range(3):
+        #     Z = solve_PDE_onestep(Z)
 
-        boxes.update_top_and_bottom_by_2darray(Z, np.ones((50, 50)) * (-0.15))
+        boxes.update_top_and_bottom_by_2darray(Z, np.zeros((60, 45)))
         boxes.update_color_by_2darray(Z)
 
+        for box in boxes:
+            print(box.box_height)
+            if box.box_height < 1e-4:
+                box.set_fill(opacity=0)
+
         self.add(boxes)
-        self.wait()
+        self.wait(4)
 
 class Boxes_waves(SpecialThreeDScene):
 
@@ -111,5 +120,61 @@ class Boxes_waves(SpecialThreeDScene):
         # boxes.remove_updater(update_boxes)
         self.wait(12)
 
+# test Cube_array
 
+class Test_cube_array(ThreeDScene):
+
+    CONFIG = {
+        'camera_init': {
+            'phi': 52.5 * DEGREES,
+            'gamma': 0,
+            'theta': -45 * DEGREES,
+        },
+        # 'camera_config': {
+        #     'should_apply_shading': False,
+        # },
+    }
+
+    def construct(self):
+
+        self.set_camera_orientation(**self.camera_init)
+
+        cubes = Cube_array(fill_color=BLUE, fill_opacity=0.6, resolution=(3,3,3), cube_size=1)
+        self.add(cubes)
+        self.wait()
+        self.play(cubes.outer_faces.shift, DL * 1.5, cubes.inner_faces.shift, UR * 2, run_time=2)
+
+        self.wait(3)
+
+class Rubik_Cube_test(ThreeDScene):
+
+    CONFIG = {
+        'camera_init': {
+            'phi': 52.5 * DEGREES,
+            'gamma': 0,
+            'theta': -45 * DEGREES,
+        },
+    }
+
+    def construct(self):
+
+        self.set_camera_orientation(**self.camera_init)
+
+        rc = Rubik_Cube()
+
+        self.add(rc)
+        self.wait()
+
+
+        self.play(Rotating(rc.get_layer(1, 1), radians=PI/2, axis=RIGHT, run_time=2))
+
+        self.play(Rotating(rc.get_layer(1, 3), radians=-PI/2, axis=OUT, run_time=2))
+
+        self.play(Rotating(rc.get_layer([1,3], 2), radians=PI, axis=UP, run_time=2), Rotating(rc.get_layer(2, 2), radians=PI*0, axis=UP, run_time=2))
+
+        self.play(Rotating(rc.get_layer(2, 1), radians=PI/2, axis=RIGHT, run_time=2), Rotating(rc.get_layer([1,3], 1), radians=PI/2 * 0, axis=RIGHT, run_time=2))
+
+        self.play(Rotating(rc.get_layer(1, 3), radians=-PI/2, axis=OUT, run_time=2))
+
+        self.wait(2)
 
