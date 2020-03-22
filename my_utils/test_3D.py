@@ -165,16 +165,60 @@ class Rubik_Cube_test(ThreeDScene):
         self.add(rc)
         self.wait()
 
+        t = 1.6
+        self.play(Rotating(rc.get_layer(1, 1), radians=PI/2, axis=RIGHT, run_time=t))
 
-        self.play(Rotating(rc.get_layer(1, 1), radians=PI/2, axis=RIGHT, run_time=2))
+        self.play(Rotating(rc.get_layer(1, 3), radians=-PI/2, axis=OUT, run_time=t))
 
-        self.play(Rotating(rc.get_layer(1, 3), radians=-PI/2, axis=OUT, run_time=2))
+        self.play(Rotating(rc.get_layer([1,3], 2), radians=PI, axis=UP, run_time=t), Rotating(rc.get_layer(2, 2), radians=PI*0, axis=UP, run_time=t))
 
-        self.play(Rotating(rc.get_layer([1,3], 2), radians=PI, axis=UP, run_time=2), Rotating(rc.get_layer(2, 2), radians=PI*0, axis=UP, run_time=2))
+        self.play(Rotating(rc.get_layer(2, 1), radians=PI/2, axis=RIGHT, run_time=t), Rotating(rc.get_layer([1,3], 1), radians=PI/2 * 0, axis=RIGHT, run_time=t))
 
-        self.play(Rotating(rc.get_layer(2, 1), radians=PI/2, axis=RIGHT, run_time=2), Rotating(rc.get_layer([1,3], 1), radians=PI/2 * 0, axis=RIGHT, run_time=2))
+        self.play(Rotating(rc.get_layer(1, 3), radians=-PI/2, axis=OUT, run_time=t))
 
-        self.play(Rotating(rc.get_layer(1, 3), radians=-PI/2, axis=OUT, run_time=2))
+        self.play(Rotating(rc.get_layer([1,2], 2), radians=-PI/2, axis=UP, run_time=t), Rotating(rc.get_layer(3, 2), radians=PI*0, axis=UP, run_time=t))
+
+        self.play(Rotating(rc.get_layer([3,2], 1), radians=PI/2, axis=RIGHT, run_time=t), Rotating(rc.get_layer(1, 1), radians=PI/2 * 0, axis=RIGHT, run_time=t))
 
         self.wait(2)
 
+class Play_rubic_order3(Rubik_Scene):
+
+    CONFIG = {
+        'order': 3,
+    }
+
+    def construct(self):
+
+        self.wait()
+        self.rotate_rubik_anim(1, 3, 1)       # U'
+        self.rotate_rubik_anim(1, 1, -1)      # R
+        self.rotate_rubik_anim(0, 2, 1)       # y
+        self.rotate_rubik_anim(1, 3, 2)       # U'2
+        self.rotate_rubik_anim(2, 1, -2)      # M'2
+        self.rotate_rubik_anim([1,2], 3, -2)  # u2
+        self.rotate_rubik_anim(1, 1, -1)      # L'
+        self.rotate_rubik_anim([2,3], 2, 1)   # b
+        self.rotate_rubik_anim(1, 3, -1)      # U
+        self.wait()
+
+
+class Play_rubic_order5(Rubik_Scene):
+
+    CONFIG = {
+        'order': 5,
+    }
+
+    def construct(self):
+
+        self.wait()
+        self.rotate_rubik_anim(1, 3, 1)
+        self.rotate_rubik_anim(1, 1, -1)
+        self.rotate_rubik_anim(0, 2, 1)
+        self.rotate_rubik_anim(1, 3, 2)
+        self.rotate_rubik_anim(2, 1, -2)
+        self.rotate_rubik_anim([1,2], 3, -2)
+        self.rotate_rubik_anim(1, 1, -1)
+        self.rotate_rubik_anim([2,3], 2, 1)
+        self.rotate_rubik_anim(1, 3, -1)
+        self.wait()
