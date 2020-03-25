@@ -12,6 +12,7 @@
 
 一些视频链接如下：
 ------
+* [自然数立方和公式的七种妙证](https://www.bilibili.com/video/BV1P741117QQ "manim-kindergarten合作视频")
 * [三体运动模拟（含行星）](https://www.bilibili.com/video/av94380754/ "代码已上传")<br>
 * [小学生也能听懂的摆线拱面积计算](https://www.bilibili.com/video/av92747585/ "代码已上传")<br>
 * [均值不等式链的几何证明](https://www.bilibili.com/video/av87824738/ "代码已上传")<br>
@@ -28,7 +29,7 @@
 关于manim的学习和交流
 -----
 我们有一个manim交流群（QQ群：862671480），欢迎大家加入交流<br>
-我们在github上的交流组织：[manim-kindergarten](https://github.com/manim-kindergarten)<br>
+我们在github上的交流组织：[manim-kindergarten](https://github.com/manim-kindergarten "很棒的一个组织哟")<br>
 
 关于代码使用的相关声明
 -----
