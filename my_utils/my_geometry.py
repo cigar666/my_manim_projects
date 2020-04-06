@@ -429,14 +429,73 @@ class New_Polygon(VGroup):
     def __init__(self, *vertices, **kwargs):
         VGroup.__init__(self, **kwargs)
         self.lines, self.dots = VGroup(plot_depth=1), VGroup(plot_depth=1)
-        self.poly=Polygon(*vertices, fill_color=self.fill_color, fill_opacity=self.fill_opacity, plot_depth=0).set_stroke(width=0)
-        self.add(self.lines, self.dots, self.poly)
+        self.poly=Polygon(*vertices, fill_color=self.fill_color,
+                          fill_opacity=self.fill_opacity, plot_depth=0).set_stroke(width=0)
+        self.add(self.poly, self.lines, self.dots)
 
         n = len(vertices)
         for i in range(n):
             self.lines.add(Line(vertices[i], vertices[(i+1) % n], color=self.stroke_color,
-                                stroke_width=self.stroke_width, plot_depth=2))
-            self.dots.add(Dot(vertices[i], color=self.stroke_color, plot_depth=2).set_height(self.stroke_width/100))
+                                stroke_width=self.stroke_width))
+            self.dots.add(Dot(vertices[i], color=self.stroke_color).set_height(self.stroke_width/100))
+
+        for dot in self.dots:
+            dot.add_updater(lambda d: d.set_height(self.stroke_width/100))
+
+class MySector(VGroup):
+
+    CONFIG = {
+        'label': 'label',
+        'font': '思源黑体 Bold',
+        'value': 1,
+    }
+
+    def __init__(self, ):
+
+        pass
+
+class Shadow_2d(VGroup):
+
+    CONFIG = {
+        'shadow_color': DARK_GRAY,
+        'shadow_opacity': 0.6,
+        'blur_width': 0.25,
+        'layer_num': 40,
+        'scale_factor': 1,
+        'shadow_out': True,
+        'show_basic_shape': True,
+        'plot_depth':-1,
+        'rate_func': lambda t: t ** 0.5,
+    }
+
+    def __init__(self, mob_or_points, **kwargs):
+        VGroup.__init__(self, **kwargs)
+
+        if type(mob_or_points) == list:
+            self.shape = Polygon(*mob_or_points, stroke_width=0, plot_depth=-1)
+        else:
+            self.shape = mob_or_points.set_stroke(width=0)
+
+        self.shape.set_fill(color=self.shadow_color, opacity=self.shadow_opacity * (1 if self.show_basic_shape else 0)).scale(self.scale_factor)
+        self.blur_outline = VGroup()
+        s = (self.shape.get_height() + self.shape.get_width())/2
+        if self.blur_width > 1e-4:
+            for i in range(self.layer_num):
+                layer_i = self.shape.copy().set_stroke(color=self.shadow_color, width=100 * self.blur_width/self.layer_num, opacity=self.shadow_opacity * (1-self.rate_func(i/self.layer_num))).\
+                    set_fill(opacity=0).scale((s + (1 if self.shadow_out else -1) * self.blur_width/self.layer_num * (i+0.5))/ s).set_plot_depth(-2)
+                self.blur_outline.add(layer_i)
+
+        self.add(self.shape, self.blur_outline)
+
+class Transformation(VGroup):
+
+    CONFIG = {
+
+    }
+
+    def __init__(self, **kwargs):
+
+        VGroup.__init__(self, **kwargs)
 
 
 
