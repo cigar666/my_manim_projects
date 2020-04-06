@@ -288,7 +288,69 @@ class Test_New_Polygon(Scene):
             .set_height(0.5).next_to(tri_02, DOWN * 0.75)
 
         self.add(*tri_01, tri_02, text_01, text_02)
-        self.play(tri_01[-1].set_fill, {'color': YELLOW, 'opacity': 0.6},
+        self.play(tri_01[0].set_fill, {'color': YELLOW, 'opacity': 0.6},
                   tri_02.set_fill, {'color': YELLOW, 'opacity': 0.6}, run_time=2.5)
         self.wait(2)
+
+class Test_New_Polygon_02(Scene):
+
+    def construct(self):
+
+        tri_01 = New_Polygon(ORIGIN, 2.5*UP, 5*RIGHT, color=BLUE, stroke_width=30).move_to(ORIGIN)
+
+        self.add(*tri_01)
+        self.wait(0.5)
+        self.play(tri_01.scale, 2., run_time=1.5)
+        self.wait()
+        self.play(tri_01[0].set_fill, {'color': YELLOW, 'opacity': 0.6}, run_time=1.5)
+        self.wait(2)
+
+
+## test Shadow ##
+
+class Test_Shadow(Scene):
+    CONFIG = {
+        'camera_config': {
+            'background_color': WHITE,
+        },
+    }
+    def construct(xgnb):
+        # circle = Circle(color=BLUE, stroke_width=0)
+        text = Text('X G N B !', font='庞门正道标题体', size=1.8)
+        shadow = Shadow_2d(text, blur_width=0.5, layer_num=50, show_basic_shape=False, shadow_out=True).shift(UP * 2.5)
+        shadow_02 = VGroup(*[Shadow_2d(text[2 * i], blur_width=0.5, layer_num=50, show_basic_shape=False) for i in range(5)]).shift(DOWN * 2)
+
+        path = 'my_manim_projects\\my_projects\\resource\\svg_files\\'
+        good = SVGMobject(path + 'good.svg', color=PINK).to_corner(LEFT * 5 + DOWN * 2)
+        coin = SVGMobject(path + 'coin.svg', color=BLUE).to_corner(LEFT * 12 + DOWN * 2)
+        favo = SVGMobject(path + 'favo.svg', color=ORANGE).to_corner(LEFT * 19 + DOWN * 2)
+
+        shadow_good = Shadow_2d(good, blur_width=0.3, layer_num=50, show_basic_shape=False, shadow_out=True)
+        shadow_coin = Shadow_2d(coin, blur_width=0.3, layer_num=50, show_basic_shape=False, shadow_out=True)
+        shadow_favo = Shadow_2d(favo, blur_width=0.3, layer_num=50, show_basic_shape=False, shadow_out=True)
+
+        xgnb.add(shadow, shadow_02)
+        xgnb.add(shadow_good, shadow_coin, shadow_favo)
+        xgnb.wait(5)
+
+class Test_Shadow_02(Scene):
+    CONFIG = {
+        'camera_config': {
+            'background_color': WHITE,
+        },
+    }
+    def construct(xgnb):
+        num=8
+        colors = color_gradient([RED, PINK, BLUE, GREEN, YELLOW, ORANGE], num)
+        s = 0.6
+        circles = VGroup(*[Circle(radius=s * (i+0.6)) for i in range(num * 2)])
+        shadows_out = VGroup(*[Shadow_2d(circles[i*2], blur_width=0.5 * s, layer_num=50, show_basic_shape=False, shadow_out=True) for i in range(num)], plot_depth=1)
+        shadows_in = VGroup(*[Shadow_2d(circles[i*2+1], blur_width=0.5 * s, layer_num=50, show_basic_shape=False, shadow_out=False) for i in range(num-1)], plot_depth=1)
+        annulus_group = VGroup(*[Annulus(inner_radius=s * (2 * i - 1 + 0.6), outer_radius=s * (2 * i + 0.6), fill_color=colors[i], fill_opacity=1, stroke_width=0, plot_depth=-5) for i in range(1, num)])
+        circle = Circle(radius=0.6 * s, stroke_width=0, fill_color=colors[0], fill_opacity=1, plot_depth=1)
+
+        xgnb.add(shadows_out, shadows_in, annulus_group, circle)
+        xgnb.wait(5)
+
+
 
