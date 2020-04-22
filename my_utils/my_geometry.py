@@ -487,15 +487,41 @@ class Shadow_2d(VGroup):
 
         self.add(self.shape, self.blur_outline)
 
-class Transformation(VGroup):
+class TransformMobject(VGroup):
 
     CONFIG = {
+        'rotate_angle': PI/2,
+        'shift_vect': ORIGIN,
+        # 'path': ,
+        'scale_range': (1, 1e-3),
+        'stroke_colors': [RED, PINK, BLUE],
+        'num': 10,
+        'rate_func': linear,
+        'scale_type': 0,
 
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, mob, **kwargs):
 
         VGroup.__init__(self, **kwargs)
+        if type(self.stroke_colors) == list:
+            stroke_colors = color_gradient(self.stroke_colors, self.num)
+        else:
+            stroke_colors = color_gradient([self.stroke_colors, self.stroke_colors], self.num)
+        for i in range(self.num):
+            t = i/(self.num-1)
+            shift_i = self.rate_func(t) * self.shift_vect
+            # scale_i = min(self.scale_range) + self.rate_func(t) * (max(self.scale_range)-min(self.scale_range))
+            if self.scale_type == 0:
+                scale_i = np.exp(np.log(self.scale_range[0]) + self.rate_func(t) * (np.log(self.scale_range[1])-np.log(self.scale_range[0])))
+            else:
+                scale_i = self.scale_range[0] + self.rate_func(t) * (self.scale_range[1]-self.scale_range[0])
+            theta_i = self.rate_func(t) * self.rotate_angle
+            mob_i = mob.copy().shift(shift_i)
+            mob_i.scale(scale_i, about_point=mob_i.get_center_of_mass()).rotate(theta_i, about_point=mob_i.get_center_of_mass()).set_stroke(color=stroke_colors[i])
+            self.add(mob_i)
+
+
 
 
 
