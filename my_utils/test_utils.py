@@ -119,7 +119,7 @@ class Test_Right_Angle(Scene):
         self.wait(2)
 
 ## test my_text ##
-from my_manim_projects.my_utils.my_text import MyText
+from my_manim_projects.my_utils.my_text import MyText, PStyle_Text
 class Test_mytext(Scene):
 
     def construct(self):
@@ -148,6 +148,30 @@ class Test_mytext(Scene):
 
         self.add(formulas)
         self.wait(5)
+
+# class Test_P(Scene):
+#
+#     CONFIG = {
+#         'camera_config':{
+#             'background_color': WHITE,
+#         },
+#     }
+#
+#     def construct(self):
+#
+#         text_1 = PStyle_Text('Xg', 'nb').to_corner(LEFT * 2 + UP * 2)
+#         text_2 = PStyle_Text('Manim', 'Kindergarten').to_corner(LEFT * 2 + UP * 5)
+#         text_3 = PStyle_Text('Cigar', '666').to_corner(LEFT * 2 + UP * 8)
+#         text_4 = PStyle_Text('Bili', 'Bili').to_corner(LEFT * 2 + UP * 11)
+#
+#         text_2[-1].shift(DOWN * 0.064)
+#         text_2[0].shift(DOWN * 0.04)
+#         text_1[-1].shift(UP * 0.02)
+#         text_1[0].shift(UP * 0.01)
+#
+#         self.add(text_1, text_2, text_3, text_4)
+#
+#         self.wait(2)
 
 ## test Trail ##
 
@@ -352,5 +376,39 @@ class Test_Shadow_02(Scene):
         xgnb.add(shadows_out, shadows_in, annulus_group, circle)
         xgnb.wait(5)
 
+## test TransformMobject
+
+class Test_TransformMobject(Scene):
+
+    def construct(self):
+
+        hexagon = RegularPolygon(6).set_width(4).set_stroke(width=1.2)
+        hexagons = TransformMobject(hexagon, rotate_angle=-TAU, stroke_colors=WHITE, shift_vect=ORIGIN, num=100, rate_func=linear, scale_type=0)
+
+        tri = RegularPolygon(3).set_width(2.).set_stroke(width=1.2).next_to(hexagon, UP, buff=0)
+        tris = TransformMobject(tri, rotate_angle=2*PI/3, stroke_colors=WHITE, shift_vect=ORIGIN, num=40, rate_func=linear, scale_type=0)
+
+        tris_group = VGroup(*[tris.copy().rotate(PI/3 * i, about_point=ORIGIN) for i in range(6)])
+
+        p_list = [complex_to_R3((2 if i%2==0 else 2*np.sqrt(3)) * np.exp(TAU/12 * 1j * i)) for i in range(12)]
+        out_line = Polygon(*p_list, stroke_width=6, color=WHITE)
+
+        self.add(hexagons, tris_group, out_line)
+        self.wait()
+
+
+class Test_TransformMobject_02(Scene):
+
+    def construct(self):
+
+        square = Square().set_width(16).set_stroke(width=1.).round_corners(1.25)
+        squares = TransformMobject(square, rotate_angle=TAU * 1.5, stroke_colors=WHITE, num=54)
+        for i in range(len(squares)):
+            if i%2 == 0:
+                squares[i].set_fill(WHITE, 1).set_plot_depth(i)
+            else:
+                squares[i].set_fill(BLACK, 1).set_plot_depth(i)
+        self.add(squares)
+        self.wait()
 
 
