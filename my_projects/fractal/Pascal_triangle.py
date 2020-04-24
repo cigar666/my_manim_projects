@@ -66,7 +66,6 @@ def comb_factor_num(n, k, m):
 # print(factorial_factor_num(100, 10))
 # print(comb_factor_num(10, 4, 35))
 
-
 class Pascal_Triangle_by_Dot(Scene):
 
     CONFIG = {
@@ -194,10 +193,10 @@ class Picture(Pascal_Triangle_by_Dot):
         },
         'dot_radius': 0.025,
         'gap': 0.001,
-        'dot_color': [BLUE_B, average_color(RED, PINK)],
+        'dot_color': [BLUE_B, PINK],
         'layer_num': 256,
         'height_of_all': 6.6,
-        'n': 24,
+        'n': 25,
     }
 
     def construct(self):
