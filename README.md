@@ -1,7 +1,6 @@
 关于my_manim_projects
 ================================
 ## 前言
-----
 运行该项目中的代码需配置好[manim](https://github.com/3b1b/manim)才能运行，[我用的manim版本](https://github.com/cigar666/manim)在[3b1b的manim](https://github.com/3b1b/manim)的基础上略有删改<br>
 其中一些素材和地址等由于某些文件的移动path可能有点不对，old_projects中的文件对应的manim版本较老（需要改改才能运行）<br>  
 此外，由于编程水平有限，加上对Grant的代码理解有限，代码有时会出现不太好的实现方式，敬请谅解<br>
@@ -11,7 +10,6 @@
 [cigar666的b站主页](https://space.bilibili.com/66806831 '求关注求三连ღ( ´･ᴗ･` )')
 
 ## 一些视频链接如下：
-------
 * [自然数立方和公式的七种妙证](https://www.bilibili.com/video/BV1P741117QQ "manim-kindergarten合作视频")
 * [三体运动模拟（含行星）](https://www.bilibili.com/video/av94380754/ "代码已上传")<br>
 * [小学生也能听懂的摆线拱面积计算](https://www.bilibili.com/video/av92747585/ "代码已上传")<br>
@@ -27,7 +25,6 @@
   [更多视频...](https://space.bilibili.com/66806831/video '更多视频等着你哟')
 
 ## 关于manim的学习和交流
------
 我们有一个manim交流群（QQ群：862671480），欢迎大家加入交流<br>
 我们在github上的交流组织：[manim-kindergarten](https://github.com/manim-kindergarten "很棒的一个组织哟")<br>
 以下是一些中文教程和文档，希望能对你的manim学习有所帮助：
@@ -52,16 +49,17 @@
 - [manim常见问题v2.2](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf)
 
 ## 关于代码使用的相关声明
------
   1. 代码主要用作大家交流学习使用，欢迎大家进行修改和补充<br>
   2. 允许使用部分相关代码进行视频创作，但如果使用代码较多请注明下出处<br>
   3. 禁止直接将该项目中的代码做简单无脑修改甚至不修改而做成视频<br>
   4. 禁止未经允许将本项目的代码用作其他商业行为<br>
   
 最后，祝大家好运ღ( ´･ᴗ･` )
-------------------
+----
+
 相关链接：
------
+----
+
 * [manim-kindergarten中整理的一些代码](https://github.com/manim-kindergarten/manim_sandbox 'manim sandbox')<br>
 * [鹤翔万里的b站主页](https://space.bilibili.com/171431343)<br>
 * [鹤翔万里的github中的manim项目](https://github.com/Tony031218/manim-projects)<br>
