@@ -73,7 +73,7 @@ class PythagoreanTree(BaseTree):
         'total_hight': 6.4,
     }
 
-    def __init__(self, abc=(3, 4, 5), **kwargs):
+    def __init__(self, abc=(3, 4, 5), change_stroke=False, **kwargs):
 
         digest_config(self, kwargs)
         # a、b、c为三边长，c为水平的斜边，其实不是直角三角形也可以
@@ -384,3 +384,91 @@ class Dragon_Curve_Arc(Scene):
         #     self.wait(2)
 
         self.wait(2)
+
+# fractal anim #
+
+class DandelionTree_Anim(Scene):
+
+    CONFIG = {
+        'camera_config': {
+            'background_color': WHITE,
+        }
+    }
+
+    def construct(self):
+
+        layer_num = 6
+        colors = color_gradient([RED, GREEN, BLUE], layer_num+1)
+        mob = Line(DOWN * 3, ORIGIN, stroke_width=20)
+        tree = BaseTree(mob, layer_num=layer_num, base_branch=(DOWN * 3., ORIGIN), derived_branch=[(ORIGIN, complex_to_R3(1.6 * np.exp((-15+30 * i) * DEGREES * 1j))) for i in range(8)])
+        for i in range(layer_num+1):
+            tree[i].set_stroke(color=colors[i], width=20 * 0.4 ** i)
+        tree.set_height(7.2).move_to(ORIGIN)
+
+        self.play(ShowCreation(tree[0]), rate_func=linear, run_time=1.2)
+        self.wait(1.)
+        for i in range(layer_num):
+            # self.play(ShowCreation(tree[i]), rate_func=linear, run_time=0.8 + i ** 0.4 * 0.8)
+            self.play(TransformFromCopy(tree[i], tree[i+1]), rate_func=linear, run_time=1 + i ** 0.5 * 0.25)
+            self.wait(0.5)
+
+        self.wait(3)
+
+class Koch_Snowflake_Anim(Scene):
+
+    CONFIG = {
+        'camera_config': {
+            'background_color': WHITE,
+        }
+    }
+
+    def construct(self):
+
+        layer_num = 8
+        colors = color_gradient([RED, GREEN, BLUE], layer_num+1)
+        # mob = Line(LEFT * 3.08, RIGHT * 3.08, stroke_width=12)
+        # tree = BaseTree(mob, layer_num=layer_num, base_branch=(LEFT * 3, RIGHT * 3), derived_branch=[(LEFT * 3, LEFT), (LEFT, UP * np.sqrt(3)), (UP * np.sqrt(3), RIGHT), (RIGHT, RIGHT * 3)])
+
+        # mob = Line(LEFT * (1.05+np.sqrt(10)), RIGHT * (1.05+np.sqrt(10)), stroke_width=16)
+        # tree = BaseTree(mob, layer_num=layer_num, base_branch=(LEFT * (1+np.sqrt(10)), RIGHT * (1+np.sqrt(10))),
+        #                 derived_branch=[(LEFT * (1+np.sqrt(10)), LEFT), (LEFT, UP * 3), (UP * 3, RIGHT), (RIGHT, RIGHT * (1+np.sqrt(10)))])
+
+        h = 6
+        mob = Line(LEFT * (1.05+np.sqrt(1+h**2)), RIGHT * (1.05+np.sqrt(1+h**2)), stroke_width=16)
+        tree = BaseTree(mob, layer_num=layer_num, base_branch=(LEFT * (1+np.sqrt(1+h**2)), RIGHT * (1+np.sqrt(1+h**2))),
+                        derived_branch=[(LEFT * (1+np.sqrt(1+h**2)), LEFT), (LEFT, UP * h), (UP * h, RIGHT), (RIGHT, RIGHT * (1+np.sqrt(1+h**2)))])
+
+        for i in range(layer_num+1):
+            tree[i].set_stroke(color=colors[i], width=16 * 0.65 ** i)
+        tree.set_width(12).move_to(ORIGIN)
+
+        for i in range(layer_num+1):
+            tree[i].set_color_by_gradient(ORANGE, RED, PINK)
+
+        self.play(ShowCreation(tree[0]), rate_func=linear, run_time=1.8)
+        self.wait(1.2)
+        for i in range(layer_num):
+            self.play(ReplacementTransform(tree[i], tree[i+1]), rate_func=linear, run_time=1 + i ** 0.5 * 0.4)
+            self.wait(0.55 + i ** 0.25 * 0.25)
+
+        self.wait(3)
+
+class PythagoreanTree_Anim(Scene):
+
+    CONFIG = {
+        'camera_config': {
+            'background_color': WHITE,
+        }
+    }
+
+    def construct(self):
+
+        layer_num = 15
+        tree = PythagoreanTree(layer_num=layer_num, total_hight=7.2)
+        self.play(FadeIn(tree[0]), rate_func=linear, run_time=1.6)
+        self.wait(1.)
+        for i in range(layer_num):
+            self.play(TransformFromCopy(tree[i], tree[i+1]), rate_func=linear, run_time=0.6 + i ** 0.5 * 0.25)
+            self.wait(0.25 + i ** 0.25 * 0.25)
+
+        self.wait(3)
