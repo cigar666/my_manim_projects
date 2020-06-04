@@ -1,5 +1,6 @@
 from manimlib.imports import *
-
+############################################
+# some test before writing Triangles class #
 class Test_01(Scene):
 
     CONFIG = {'camera_config': {
@@ -43,10 +44,12 @@ class Test_01(Scene):
             tri_group.add(self.create_triangle(i, j))
         return tri_group.set_color(color)
 
+##################
+# Triangle class #
 class Triangles(VGroup):
 
     CONFIG = {
-        'stroke_width': 0.6,
+        'stroke_width': 1,
         'tri_scale': 1, # there's some bugs
         # 'tri_list': [[0, 0]],
     }
@@ -73,9 +76,9 @@ class Triangles(VGroup):
         self.add(tri_group.scale(scale, about_point=self.O))
         return tri_group.set_color(color)
 
-    def create_list_by_move(self, move_list, start=[0, 0]):
+    def create_list_by_move(self, move_instr, start=[0, 0]):
         list = [start]
-        for str in move_list:
+        for str in move_instr:
 
             i, j = list[-1]
             if j % 2 == 0:
@@ -103,10 +106,31 @@ class Triangles(VGroup):
 
         return list
 
-    def create_triangles_by_move(self, move_list, start=[0, 0], color=BLUE, scale=1, plot_depth=0):
-        list = self.create_list_by_move(move_list, start=start)
+    def create_triangles_by_move(self, move_instr, start=[0, 0], color=BLUE, scale=1, plot_depth=0):
+        list = self.create_list_by_move(move_instr, start=start)
         return self.create_triangles(list, color=color, scale=scale, plot_depth=plot_depth)
 
+    def list_by_move_instruction(self, instruction):
+        # '2_3_XYYYXY%-1_2_XYYYXY'
+        if instruction == '' or instruction == ' ':
+            return []
+        list_1 = instruction.split('%')
+        list = []
+        for l in list_1:
+            split_l = l.split('_')
+            i, j, move_instr = int(split_l[0]), int(split_l[1]), split_l[2]
+            if move_instr != '':
+                list += self.create_list_by_move(move_instr, start=[i,j])
+            else:
+                list.append([i, j])
+        return list
+
+    def triangles_by_move_instruction(self, instruction, color=BLUE, scale=1, plot_depth=0):
+        list = self.list_by_move_instruction(instruction)
+        return self.create_triangles(list, color=color, scale=scale, plot_depth=plot_depth)
+
+##################################
+# some test about Triangle class #
 class Test_Plot_by_tri(Scene):
 
     def construct(self):
@@ -185,7 +209,8 @@ class Test_Plot_by_tri_02(Scene):
         # self.play(theta.set_value, PI/6, run_time=4)
         # self.wait()
 
-
+#############################
+# from @鹤翔万里 （xgnb!!!） #
 class CGNB(Scene):
 
     def construct(self):
@@ -240,3 +265,106 @@ class Cigar666(Scene):
         cg666 = VGroup(tri_c, tri_i, tri_g, tri_a, tri_r, tri_6, tri_6.copy(), tri_6.copy()).arrange(RIGHT, buff=0.6).set_width(12)
         self.add(cg666)
 
+#################################
+# use Triangles to plot letters #
+class Letter(Triangles):
+
+    CONFIG = {
+        'letter_dict': {
+            'A': '-2_-3_' + 'Y' * 6 + 'XYXyX' + 'y' * 6 + '%' + '-1_-2_' +'yXY',
+            # 'a': '0_1_Yxyx' + 'y' * 4 + 'XyXY' + '%' + '1_1_' + 'y' * 6 + 'X',
+            'a': '0_1_Yxyx' + 'y' * 4 + 'XyXY' + '%' + '1_0_' + 'y' * 5,
+            'i': '-1_3_%0_2_%' + '-1_-3_YYY' + '%' + '0_-4_YYY',
+            'N': '-2_-3_' + 'Y' * 6 + 'XyXyX' + 'Y' * 2 + 'y' * 6,
+            'n': '-2_-1_' + 'Y' * 4 + 'XyXyX' + 'Y' * 2 + 'y' * 4,
+            'M': '-2_-3_' + 'Y' * 6 + 'XyXYX' + 'y' * 6,
+            'm': '-2_-1_' + 'Y' * 4 + 'XyXYX' + 'y' * 4,
+            'Z': '0_0_YYxyxy%-1_-1_yyXYXY',
+            'S': '-1_0_xYYXYXY%0_-1_Xyyxyxy',
+            's': '-1_0_xYYXYX%0_-1_Xyyxyx',
+            'b': '-2_5_' + 'y' * 6 + 'XyXYXYYYYxYxy',
+            'd': '1_2_' + 'y' * 6 + 'xyxYxYYYYXYXy',
+            'o': '1_0_xYxyxyyyyXyXYXYYY',
+            'x': '1_0_xyxYx%-2_-1_XYXyX',
+
+            ' ': '',
+        },
+        # TODO add other letters
+        'bg_color': ['#1955D6', '#498AED', '#4573D8'],
+        'add_bg': False,
+    }
+
+    def __init__(self, X, Y, O, char, **kwargs):
+        Triangles.__init__(self, X, Y, O, **kwargs)
+        if self.add_bg:
+            self.create_triangles([[0, 0], [-1, 1]], color=self.bg_color[0], scale=3)
+            self.create_triangles([[-1, 0], [-1, -1]], color=self.bg_color[1], scale=3)
+            self.create_triangles([[0, -1], [0, -2]], color=self.bg_color[2], scale=3)
+
+        self.triangles_by_move_instruction(self.letter_dict[char], color=WHITE, scale=1)
+
+class TexByTri(VGroup):
+
+    def __init__(self, X, Y, O, tex='manim', add_bg='10000', **kwargs):
+        VGroup.__init__(self, **kwargs)
+        for char, s in zip(tex, add_bg):
+            self.add(Letter(X, Y, O, char, add_bg=bool(int(s))))
+        self.arrange(RIGHT)
+
+
+class Test_letters(Scene):
+
+    def construct(self):
+
+        r = 0.6
+        X, Y, O = r * complex_to_R3(np.exp(1j * PI/6)), r * complex_to_R3(np.exp(1j * PI/2 )), ORIGIN
+
+        # m0 = Letter(X, Y, O, 'm', add_bg=True)
+        # a = Letter(X, Y, O, 'a', add_bg=True)
+        # n = Letter(X, Y, O, 'n', add_bg=True)
+        # i = Letter(X, Y, O, 'i', add_bg=True)
+        # m = Letter(X, Y, O, 'm', add_bg=True)
+        # anim = VGroup(a, n, i, m).arrange(RIGHT, buff=0, aligned_edge=DOWN).next_to(m0, RIGHT, buff=0)
+        # manim = VGroup(m0, *anim).set_width(10).move_to(ORIGIN)
+
+        manim = TexByTri(X, Y, O, 'manim', add_bg='11111').set_width(11).shift(UP * 1.5)
+        manim_2 = TexByTri(X, Y, O, 'mAnim', add_bg='00000').arrange(RIGHT, aligned_edge=DOWN).shift(DOWN * 1.5)
+
+        self.add(manim, manim_2)
+        self.wait()
+
+class Manim_Sandbox(Scene):
+
+    def construct(self):
+
+        r = 0.25
+        X, Y, O = r * complex_to_R3(np.exp(1j * PI/6)), r * complex_to_R3(np.exp(1j * PI/2 )), ORIGIN
+
+        # boxes_01 = TexByTri(X, Y, O, '    ', add_bg='1111').arrange(RIGHT, buff=0)
+        # manim = TexByTri(X, Y, O, 'manim', add_bg='11111').arrange(RIGHT, buff=0)
+        # sand = TexByTri(X, Y, O, ' sand ', add_bg='111111').arrange(RIGHT, buff=0)
+        # box = TexByTri(X, Y, O, ' box ', add_bg='11111').arrange(RIGHT, buff=0)
+        # boxes_02 = TexByTri(X, Y, O, '    ', add_bg='1111').arrange(RIGHT, buff=0)
+        # manim_sandbox = VGroup(boxes_01, manim, sand, box, boxes_02).arrange(DOWN, buff=0)
+        # manim.shift(-Y * 1.5), box.shift(Y * 1.5), boxes_01.shift(-Y * 3), boxes_02.shift(Y * 3),
+
+        # boxes_01 = TexByTri(X, Y, O, '    ', add_bg='1111').arrange(RIGHT, buff=0.5)
+        # manim = TexByTri(X, Y, O, 'manim', add_bg='11111').arrange(RIGHT, buff=0.5)
+        # sand = TexByTri(X, Y, O, ' sand ', add_bg='111111').arrange(RIGHT, buff=0.5)
+        # box = TexByTri(X, Y, O, ' box ', add_bg='11111').arrange(RIGHT, buff=0.5)
+        # boxes_02 = TexByTri(X, Y, O, '    ', add_bg='1111').arrange(RIGHT, buff=0.5)
+        # manim_sandbox = VGroup(boxes_01, manim, sand, box, boxes_02).arrange(DOWN, buff=0)
+
+
+        manim = TexByTri(X, Y, O, 'manim', add_bg='00000')
+        manim[0].scale(1.25), manim[1].scale(0.82)
+        manim.arrange(RIGHT, buff=0.5, aligned_edge=DOWN)
+        sandbox = TexByTri(X, Y, O, 'Sandbox', add_bg='0000000')
+        sandbox[1].scale(0.82), sandbox[3:6].scale(0.86)
+        sandbox.arrange(RIGHT, buff=0.5, aligned_edge=DOWN)
+        # box = TexByTri(X, Y, O, ' box ', add_bg='11111').arrange(RIGHT, buff=0.5)
+
+        manim_sandbox = VGroup(manim, sandbox).arrange(DOWN, buff=0.5)
+
+        self.add(manim_sandbox)
+        self.wait()
