@@ -46,7 +46,7 @@ class Test_01(Scene):
 class Triangles(VGroup):
 
     CONFIG = {
-        'stroke_width': 1,
+        'stroke_width': 0.6,
         'tri_scale': 1, # there's some bugs
         # 'tri_list': [[0, 0]],
     }
@@ -79,24 +79,24 @@ class Triangles(VGroup):
 
             i, j = list[-1]
             if j % 2 == 0:
-                if str == 'Y':
+                if str == 'Y' or str == 'U':
                     list.append([i, j+1])
-                elif str == 'y':
+                elif str == 'y' or str == 'D':
                     list.append([i, j-1])
-                elif str == 'X':
+                elif str == 'X' or str == 'R':
                     list.append([i, j+1])
-                elif str == 'x':
+                elif str == 'x' or str == 'L':
                     list.append([i-1, j+1])
                 else:
                     print('error, invalid move instruction')
             else:
-                if str == 'Y':
+                if str == 'Y' or str == 'U':
                     list.append([i, j+1])
-                elif str == 'y':
+                elif str == 'y' or str == 'D':
                     list.append([i, j-1])
-                elif str == 'X':
+                elif str == 'X' or str == 'R':
                     list.append([i+1, j-1])
-                elif str == 'x':
+                elif str == 'x' or str == 'L':
                     list.append([i, j-1])
                 else:
                     print('error, invalid move instruction')
@@ -184,3 +184,59 @@ class Test_Plot_by_tri_02(Scene):
         self.wait()
         # self.play(theta.set_value, PI/6, run_time=4)
         # self.wait()
+
+
+class CGNB(Scene):
+
+    def construct(self):
+
+        l = 0.4
+        X, Y, O = l/np.sqrt(3) * complex_to_R3(np.exp(1j * 0)) + RIGHT * 0.15 * l, \
+                  l/np.sqrt(3) * complex_to_R3(np.exp(2j * PI/3)), \
+                  l/np.sqrt(3) * complex_to_R3(np.exp(-2j * PI/3))
+
+        tri_c = Triangles(X, Y, O)
+        tri_c.create_triangles_by_move("xyxYxYYYYYYXYXyX", start=[1, -4]).center()
+        tri_g = Triangles(X, Y, O)
+        tri_g.create_triangles_by_move("XyyxyxYxYYYYYYXYXyX", start=[0, -1]).center()
+        tri_n = Triangles(X, Y, O)
+        tri_n.create_triangles_by_move("YYYYYYXyXyXYYyyyyyy", start=[-2, -3], color=WHITE).center()
+        tri_b = Triangles(X, Y, O)
+        tri_b.create_triangles_by_move("XyXyyxyxYxYYYYYYXYXyXyyx", start=[-1, 1], color=WHITE).center()
+
+        cgnb = VGroup(tri_c, tri_g, tri_n, tri_b).arrange(RIGHT, buff=0.6)
+        self.add(cgnb)
+
+
+class Cigar666(Scene):
+
+    def construct(self):
+        
+        l = 0.4
+        X, Y, O = l/np.sqrt(3) * complex_to_R3(np.exp(1j * 0)) + RIGHT * 0.15 * l, \
+                  l/np.sqrt(3) * complex_to_R3(np.exp(2j * PI/3)), \
+                  l/np.sqrt(3) * complex_to_R3(np.exp(-2j * PI/3))
+
+        tri_c = Triangles(X, Y, O)
+        tri_c.create_triangles_by_move("xyxYxYYYYYYXYXyX", start=[1, -4]).center()
+
+        tri_i = Triangles(X, Y, O)
+        tri_i.create_triangles_by_move("Y" * 8 + "X" + "y" * 8, start=[-1, -3]).center()
+
+        tri_g = Triangles(X, Y, O)
+        tri_g.create_triangles_by_move("XyyxyxYxYYYYYYXYXyX", start=[0, -1]).center()
+
+        tri_a = Triangles(X, Y, O)
+        list_a = tri_a.create_list_by_move('Y' * 6 + 'XYXyX' + 'y' * 6, start=[-2, -3]) +\
+                 tri_a.create_list_by_move('yXY', start=[-1, -2])
+        tri_a.create_triangles(list_a).center()
+
+        tri_r = Triangles(X, Y, O)
+        tri_r.create_triangles_by_move("U"*6+"RURDRDDLDLRDRDD", start=[-2, -1]).center()
+
+        tri_6 = Triangles(X, Y, O)
+        tri_6.create_triangles_by_move("LULDL"+"D"*6+"RDRURUULULD", start=[1, 2], color=WHITE).center()
+
+        cg666 = VGroup(tri_c, tri_i, tri_g, tri_a, tri_r, tri_6, tri_6.copy(), tri_6.copy()).arrange(RIGHT, buff=0.6).set_width(12)
+        self.add(cg666)
+
