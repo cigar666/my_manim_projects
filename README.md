@@ -62,7 +62,7 @@
 
 * [manim-kindergarten中整理的一些代码](https://github.com/manim-kindergarten/manim_sandbox 'manim sandbox')<br>
 * [鹤翔万里的b站主页](https://space.bilibili.com/171431343)<br>
-* [鹤翔万里的github中的manim项目](https://github.com/Tony031218/manim-projects)<br>
+* [鹤翔万里的github中的manim项目](https://github.com/Tony031218/manim_projects)<br>
 * [有一种悲伤叫颓废的github](https://github.com/136108Haumea)<br>
 * [pdcxs的github中的manim项目](https://github.com/pdcxs/ManimProjects)
 * [cai-hust整理的manim中文文档](https://github.com/cai-hust/manim-tutorial-CN)<br>
