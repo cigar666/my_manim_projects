@@ -73,8 +73,9 @@ class Triangles(VGroup):
         tri_group = VGroup()
         for i, j in list_ij:
             tri_group.add(self.create_triangle(i, j))
-        self.add(tri_group.scale(scale, about_point=self.O))
-        return tri_group.set_color(color)
+        tri_group.scale(scale, about_point=self.O).set_color(color)
+        self.add(tri_group)
+        return tri_group
 
     def create_list_by_move(self, move_instr, start=[0, 0]):
         list = [start]
@@ -232,7 +233,6 @@ class CGNB(Scene):
         cgnb = VGroup(tri_c, tri_g, tri_n, tri_b).arrange(RIGHT, buff=0.6)
         self.add(cgnb)
 
-
 class Cigar666(Scene):
 
     def construct(self):
@@ -286,7 +286,6 @@ class Letter(Triangles):
             'd': '1_2_' + 'y' * 6 + 'xyxYxYYYYXYXy',
             'o': '1_0_xYxyxyyyyXyXYXYYY',
             'x': '1_0_xyxYx%-2_-1_XYXyX',
-
             ' ': '',
         },
         # TODO add other letters
@@ -310,7 +309,6 @@ class TexByTri(VGroup):
         for char, s in zip(tex, add_bg):
             self.add(Letter(X, Y, O, char, add_bg=bool(int(s))))
         self.arrange(RIGHT)
-
 
 class Test_letters(Scene):
 
@@ -363,8 +361,82 @@ class Manim_Sandbox(Scene):
         sandbox[1].scale(0.82), sandbox[3:6].scale(0.86)
         sandbox.arrange(RIGHT, buff=0.5, aligned_edge=DOWN)
         # box = TexByTri(X, Y, O, ' box ', add_bg='11111').arrange(RIGHT, buff=0.5)
-
         manim_sandbox = VGroup(manim, sandbox).arrange(DOWN, buff=0.5)
 
         self.add(manim_sandbox)
         self.wait()
+
+# to plot some weird shape
+
+class Cube_by_tri(Triangles):
+    CONFIG = {
+        'colors': ['#498AED', '#1955D6', '#4573D8'],
+        'stroke_width': 1.5,
+    }
+    def __init__(self, X=UP * 0.5 + RIGHT * np.sqrt(3)/2, Y=UP, O=ORIGIN, scale_factor=1, **kwargs):
+        self.X, self.Y, self.O= O + (X - O) * scale_factor, O + (Y - O) * scale_factor, O
+        Triangles.__init__(self, self.X, self.Y, self.O, **kwargs)
+        self.top = self.create_triangles([[0, 0], [-1,1]], color=self.colors[0])
+        self.front = self.create_triangles([[-1, 0], [-1,-1]], color=self.colors[2])
+        self.right = self.create_triangles([[0, -1], [0,-2]], color=self.colors[1])
+
+
+        self.vect_up, self.vect_down = self.Y, -self.Y
+        self.vect_front, self.vect_back = -self.X, self.X
+        self.vect_right, self.vect_left = self.X - self.Y, self.Y - self.X
+        self.move_dict = {'u': self.vect_up, 'd': self.vect_down, 'f': self.vect_front,
+                          'b': self.vect_back, 'r': self.vect_right, 'l': self.vect_left}
+
+    def move(self, instruction, leave_copy=False):
+
+        # u: up, d: down, f: front, b: back, r: right, l: left
+
+        copy = VGroup(self.copy())
+
+        for s in instruction:
+            v = self.move_dict[s]
+            self.shift(v)
+            if leave_copy:
+                copy.add(self.copy())
+
+        if not leave_copy:
+            return self
+        else:
+            return copy
+
+    def move_and_keep_copy(self, instruction):
+        return self.move(instruction, leave_copy=True)
+
+class Test_Cube(Scene):
+
+    def construct(self):
+
+        cube = Cube_by_tri(scale_factor=0.8)
+        cube[-1].set_stroke(width=0.8)
+        cube.move('uull')
+        cubes = cube.move_and_keep_copy('r' * 6 + 'f' * 6 + 'u' * 5)
+
+        # all_faces = VGroup()
+        # for c in cubes:
+        #     all_faces.add(c[0], c[1], c[2])
+        #     # all_faces.add(*c)
+        # all_faces[0].set_plot_depth(2), all_faces[1].set_plot_depth(2), all_faces[3].set_plot_depth(2), all_faces[4].set_plot_depth(2)
+        # self.add(*all_faces)
+
+        self.add(cubes[0])
+        self.wait(0.6)
+        self.play(WiggleOutThenIn(cubes[0]))
+        self.wait()
+        for i in range(16):
+            self.play(TransformFromCopy(cubes[i], cubes[i+1]), rate_func=linear, run_time=0.2 + np.sqrt(i) * 0.1)
+        new_face = VGroup(cubes[0][0:2], cubes[1][0:2]).set_plot_depth(2).set_stroke(width=0.9)
+        self.add(new_face)
+        cubes[-1].move('d')
+        self.play(cubes[-1].move, 'u', rate_func=linear, run_time=0.6)
+        self.wait(0.8)
+        self.play(cubes[-1].move, 'ff', rate_func=there_and_back, run_time=1.8)
+        self.wait(2)
+
+
+
+
