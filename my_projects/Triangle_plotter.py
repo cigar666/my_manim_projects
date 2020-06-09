@@ -437,6 +437,113 @@ class Test_Cube(Scene):
         self.play(cubes[-1].move, 'ff', rate_func=there_and_back, run_time=1.8)
         self.wait(2)
 
+class Impossible_Shape(Scene):
 
+    def construct(self):
+
+        cube = Cube_by_tri(scale_factor=0.46)
+        cube[1].set_stroke(width=1.25)
+        cube[-1].set_stroke(width=1)
+        cube.move('uull')
+        cubes = cube.move_and_keep_copy('r' * 6 + 'f' * 6 + 'u' * 5).set_plot_depth(1)
+        cube.move('llb')
+
+        new_face = VGroup(cubes[0][0:2].copy(), cubes[1][0:2].copy(), cubes[2][0:2].copy(), cubes[3][0:2].copy()).set_plot_depth(2).set_stroke(width=1.25)
+        cubes_02 = cube.move_and_keep_copy('f' * 7 + 'r' * 15 + 'u' * 15 + 'f' * 7).set_plot_depth(-1)
+        new_face_02 = cubes_02[0][0].copy().set_plot_depth(2).set_stroke(width=1.1)
+        new_face_03 = VGroup(cubes[12][1].copy(), cubes[12][2].copy()).set_plot_depth(2).set_stroke(width=1.45)
+        new_face_04 = VGroup(cubes[6][0].copy(), cubes[6][-1].copy()).set_plot_depth(2).set_stroke(width=1.54)
+
+        small_tri = VGroup(cubes, new_face, new_face_03, new_face_04)
+        big_tri = VGroup(cubes_02, new_face_02)
+        ##############
+        # test shape #
+        # self.add(cubes)
+        # self.add(new_face)
+        # self.wait()
+        #
+        # self.add(cubes_02)
+        # self.add(new_face_02)
+        # self.add(cubes[0])
+        ##############
+        self.add(cubes[0])
+        self.wait(0.8)
+        self.play(WiggleOutThenIn(cubes[0]), scale_value=1.2)
+        self.wait(0.9)
+        for i in range(16):
+            self.play(TransformFromCopy(cubes[i], cubes[i+1]), rate_func=linear, run_time=0.18 + np.sqrt(i) * 0.05)
+
+        self.add(new_face)
+        cubes[-1].move('d')
+        self.play(cubes[-1].move, 'u', rate_func=linear, run_time=0.5)
+        self.wait(0.8)
+        # self.play(cubes[-1].move, 'ffff',
+        #           cubes[-2].move, 'fff',
+        #           cubes[-3].move, 'ff',
+        #           cubes[-4].move, 'f',
+        #           rate_func=there_and_back_with_pause, run_time=2.7)
+        self.play(cubes[-1].shift, cube.vect_front * 0.6 * 5,
+                  cubes[-2].shift, cube.vect_front * 0.6 * 4,
+                  cubes[-3].shift, cube.vect_front * 0.6 * 3,
+                  cubes[-4].shift, cube.vect_front * 0.6 * 2,
+                  cubes[-5].shift, cube.vect_front * 0.6,
+                  rate_func=there_and_back_with_pause, run_time=2.7)
+        self.wait(1.2)
+        self.play(cubes[-1].shift, -cube.vect_front * 0.6 * 5,
+                  cubes[-2].shift, -cube.vect_front * 0.6 * 4,
+                  cubes[-3].shift, -cube.vect_front * 0.6 * 3,
+                  cubes[-4].shift, -cube.vect_front * 0.6 * 2,
+                  cubes[-5].shift, -cube.vect_front * 0.6,
+                  rate_func=there_and_back_with_pause, run_time=2.7)
+        self.wait(1.2)
+        self.play(cubes[-1].shift, cube.vect_left * 0.6 * 5,
+                  cubes[-2].shift, cube.vect_left * 0.6 * 4,
+                  cubes[-3].shift, cube.vect_left * 0.6 * 3,
+                  cubes[-4].shift, cube.vect_left * 0.6 * 2,
+                  cubes[-5].shift, cube.vect_left * 0.6,
+                  rate_func=there_and_back_with_pause, run_time=2.7)
+
+        self.wait(2.)
+
+        self.play(TransformFromCopy(cubes[0], cubes_02[0]), rate_func=linear, run_time=0.6)
+
+        for i in range(len(cubes_02)-2):
+
+            if i == 13:
+                self.play(TransformFromCopy(cubes_02[i], cubes_02[i+1], rate_func=linear), FadeIn(new_face_03, rate_func=lambda t:1), run_time=0.2 + np.sqrt(i) * 0.025)
+            elif i == 28:
+                self.play(TransformFromCopy(cubes_02[i], cubes_02[i+1], rate_func=linear), FadeIn(new_face_04, rate_func=lambda t:1), run_time=0.2 + np.sqrt(i) * 0.025)
+            else:
+                self.play(TransformFromCopy(cubes_02[i], cubes_02[i+1]), rate_func=linear, run_time=0.2 + np.sqrt(i) * 0.025)
+
+        self.add(new_face_02)
+        cubes_02[-1].move('b')
+        self.play(cubes_02[-1].move, 'f', rate_func=linear, run_time=0.6)
+        # self.wait(0.8)
+        #
+        # self.play(big_tri.shift, LEFT * 2, small_tri.shift, RIGHT * 3, run_time=1.2)
+        self.wait(4.5)
+
+# class Generate_Anim(Scene):
+#
+#     def construct(self):
+#
+#         r = 0.75
+#         theta = ValueTracker(0)
+#         X, Y, O = r * complex_to_R3(np.exp(1j * (PI/6 - theta.get_value()))),\
+#                   r * complex_to_R3(np.exp(1j * (PI/2 - 0 * theta.get_value()))), \
+#                   ORIGIN
+#
+#         tri = Triangles(X, Y, O)
+#
+#         tri.create_triangles_by_move('Y' * 11 + 'yX' * 4, start=[-3, -5], color=BLUE_B)
+#         tri.create_triangles_by_move('Xy' * 5 + 'X' + 'xy' * 4, start=[-3, 7], color=BLUE_D)
+#         tri.create_triangles_by_move('y' * 8 + 'X' * 11, start=[-2, 2], color=BLUE_E)
+#
+#         self.play(ShowCreation(tri[0]), run_time=4, rate_func=linear)
+#         self.play(ShowCreation(tri[1]), run_time=4, rate_func=linear)
+#         self.play(ShowCreation(tri[2]), run_time=4, rate_func=linear)
+#
+#         self.wait(2)
 
 
