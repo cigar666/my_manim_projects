@@ -371,7 +371,7 @@ class Manim_Sandbox(Scene):
 class Cube_by_tri(Triangles):
     CONFIG = {
         'colors': ['#498AED', '#1955D6', '#4573D8'],
-        'stroke_width': 1.5,
+        'stroke_width': 1.6,
     }
     def __init__(self, X=UP * 0.5 + RIGHT * np.sqrt(3)/2, Y=UP, O=ORIGIN, scale_factor=1, **kwargs):
         self.X, self.Y, self.O= O + (X - O) * scale_factor, O + (Y - O) * scale_factor, O
@@ -406,6 +406,16 @@ class Cube_by_tri(Triangles):
 
     def move_and_keep_copy(self, instruction):
         return self.move(instruction, leave_copy=True)
+
+    def remove_faces(self, list):
+        for i in range(3):
+            if list[i] < 0:
+                pass
+            elif list[i] != 2:
+                self[i].remove(self[i][list[i]])
+            else:
+                self[i].remove(self[i][0])
+                self[i].remove(self[i][0])
 
 class Test_Cube(Scene):
 
@@ -524,26 +534,39 @@ class Impossible_Shape(Scene):
         # self.play(big_tri.shift, LEFT * 2, small_tri.shift, RIGHT * 3, run_time=1.2)
         self.wait(4.5)
 
-# class Generate_Anim(Scene):
-#
-#     def construct(self):
-#
-#         r = 0.75
-#         theta = ValueTracker(0)
-#         X, Y, O = r * complex_to_R3(np.exp(1j * (PI/6 - theta.get_value()))),\
-#                   r * complex_to_R3(np.exp(1j * (PI/2 - 0 * theta.get_value()))), \
-#                   ORIGIN
-#
-#         tri = Triangles(X, Y, O)
-#
-#         tri.create_triangles_by_move('Y' * 11 + 'yX' * 4, start=[-3, -5], color=BLUE_B)
-#         tri.create_triangles_by_move('Xy' * 5 + 'X' + 'xy' * 4, start=[-3, 7], color=BLUE_D)
-#         tri.create_triangles_by_move('y' * 8 + 'X' * 11, start=[-2, 2], color=BLUE_E)
-#
-#         self.play(ShowCreation(tri[0]), run_time=4, rate_func=linear)
-#         self.play(ShowCreation(tri[1]), run_time=4, rate_func=linear)
-#         self.play(ShowCreation(tri[2]), run_time=4, rate_func=linear)
-#
-#         self.wait(2)
+class Impossible_Shape_02(Scene):
 
+    def construct(self):
+
+        cube = Cube_by_tri(scale_factor=0.6)
+        cube[1].set_stroke(width=1.4)
+        cube[-1].set_stroke(width=1.2)
+
+        n = 5
+        cubes = cube.move_and_keep_copy('r' * n + 'u' * n + 'f' * n + 'u' * n + 'r' * (n-1))
+        new_face = VGroup(cubes[1][0].copy(), cubes[1][1].copy())#.set_plot_depth(1)
+        # new_face_02 = VGroup(cubes[2 * n + 1][0].copy(), cubes[2 * n + 1][2].copy())#.set_plot_depth(1)
+        cubes[-1].remove_faces([-1, 1, 2])
+        # cubes[-1].remove_faces([-1, 1, 2])
+
+        cube.move('r' + 'f' * (n+1))
+        cubes_1 = cube.move_and_keep_copy('f' * (n-1) + 'u' * n + 'r' * (n-1))
+        cubes_1[-1].remove_faces([0, 1, 2])
+
+        cube.move('r' + 'f' * n + 'r')
+        cubes_2 = cube.move_and_keep_copy('r' * (n-1) + 'u' * (n-1))
+        cubes_2[-1].remove_faces([2, 0, 0])
+
+        cube.move('d' * (n-1) + 'b' * (n-1))
+        cubes_3 = cube.move_and_keep_copy('f' * (n-2))
+        cubes_3[-1].remove_faces([1, 2, -1])
+
+        cube.move('f' + 'u' * 2 * n + 'f')
+        cubes_4 = cube.move_and_keep_copy('f' * (n-2))
+        cubes_4[-1].remove_faces([-1, 2, 1])
+
+
+        self.add(cubes, new_face, cubes_1, cubes_2, cubes_3, cubes_4)
+
+        self.wait(4.)
 
