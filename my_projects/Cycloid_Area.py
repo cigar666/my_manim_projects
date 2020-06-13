@@ -324,7 +324,7 @@ class Area_by_intergral(Scene):
         text_y = TexMobject('y=r(1-\\cos{t})', color=BLUE).to_corner(LEFT * 2 + UP * 3)
         text_t = TexMobject('0\\leqslant t \\leqslant 2\\pi', color=BLUE).to_corner(LEFT * 1.5 + UP * 4.5).scale(0.75)
 
-        text_01 = TexMobject('A=\\int^{t=2\\pi}_{t=0} y dx').to_corner(LEFT * 2 + UP * 7.5)
+        text_01 = TexMobject('A=\\int^{x=2\\pi r}_{x=0} y dx').to_corner(LEFT * 2 + UP * 7.5)
         text_02 = TexMobject('=\\int^{t=2\\pi}_{t=0} r^2(1-\\cos{t})^2 dt').next_to(text_01, RIGHT * 0.5)
         text_03 = TexMobject('=r^2({3\\over2}t-2\\sin{t}+{1\\over2}\\cos{t}\\sin{t})', '\\Big|', '^{t=2\\pi}', '_{t=0}').next_to(text_01, DOWN * 1.2).to_corner(LEFT * 2)
         # text_03[1].scale([1,2,1]), text_03[2].align_to(text_03[1], UP), text_03[3].align_to(text_03[1], DOWN)
@@ -354,10 +354,12 @@ class Area_divide_into_rect(Scene):
         ground_line = Line(UP * 0.5 + LEFT * 6, UP * 0.5 + RIGHT * 6, color=WHITE, stroke_width=2.5)
         circle = Circle(radius=r, color=WHITE, stroke_width=2., fill_color=RED, fill_opacity=0.0).move_to((r + 0.5) * UP)
 
+        # left part of the area
         area_l = Polygon(*([start_point + r * np.array([t-np.sin(t), 1-np.cos(t), 0]) for t in np.linspace(0, PI, 50)] +
                            [start_point + r * UP + r * PI * RIGHT + r * np.array([np.cos(t), np.sin(t), 0]) for t in np.linspace(PI/2, 3*PI/2, 50)]),
                          stroke_width=2, fill_color=BLUE, fill_opacity=0.0)
 
+        # right part of the area
         area_r = Polygon(*([start_point + r * np.array([t-np.sin(t), 1-np.cos(t), 0]) for t in np.linspace(2 * PI, PI, 50)] +
                            [start_point + r * UP + r * PI * RIGHT + r * np.array([np.cos(t), np.sin(t), 0]) for t in np.linspace(PI/2, -PI/2, 50)]),
                          stroke_width=2, fill_color=YELLOW, fill_opacity=0.0)
