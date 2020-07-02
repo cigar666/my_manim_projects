@@ -1,7 +1,7 @@
 # this file need to do some changes to run on the new version of manim
 from manimlib.imports import *
-from active_projects.diffyq.part2.fourier_series import FourierOfTrebleClef, FourierOfPiSymbol
-from active_projects.diffyq.part4.fourier_series_scenes import ComplexFourierSeriesExample
+from from_3b1b.active.diffyq.part2.fourier_series import FourierOfTrebleClef, FourierOfPiSymbol
+from from_3b1b.active.diffyq.part4.fourier_series_scenes import ComplexFourierSeriesExample
 svg_path = 'my_projects\\resource\\svg_files\\'
 
 class Show_misaka_long_y(Scene):
@@ -24,8 +24,6 @@ class Change_misaka2text(Scene):
         self.play(ReplacementTransform(misaka, TextMobject('感 谢 收 看', color=YELLOW).scale(3.6).shift(UP * 0.75)), run_time=2.5)
         self.wait(5)
 
-
-
 class One(FourierOfPiSymbol):
     CONFIG = {
         "tex": "1",
@@ -47,7 +45,6 @@ class Go(Scene):
         text = TextMobject('go!', color=YELLOW).scale(7.2)
         self.play(FadeInFromLarge(text))
         self.wait(1)
-
 
 class Show_svg_text(Scene):
 
