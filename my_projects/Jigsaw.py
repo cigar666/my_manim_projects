@@ -327,4 +327,183 @@ class How_to(Text4animScene):
         except:
             return Dot(line_intersection([P1, P2], [P3, P4]), **kwargs)
 
+class Tile(How_to):
+
+    def construct(self):
+
+        A, B, C, D = Dot(UP * 1.6 + RIGHT * 0.9), Dot(UP * 0.9 + RIGHT * 2.2), Dot(RIGHT * 2.7 + DOWN * 0.1), Dot(DOWN * 0.8)
+        ABCD = VGroup(A, B, C, D).move_to(ORIGIN).scale(1.6)
+        # quadrilateral = self.get_poly_d(A, B, C, D) .add_updater(lambda p: p.become(self.get_poly_d(A, B, C, D, stroke_color=WHITE, stroke_width=8, fill_color=BLUE, fill_opacity=1.0)))
+        quadrilateral = self.get_poly_d(A, B, C, D, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        E = self.get_point_on_line(A, B, 0.5)
+        F = self.get_point_on_line(B, C, 0.5)
+        G = self.get_point_on_line(C, D, 0.5)
+        H = self.get_point_on_line(D, A, 0.5)
+        I = self.intersection(E, G, F, H)
+        cut_line_01 = Line(E, G, color=YELLOW).scale(2)
+        cut_line_02 = Line(H, F, color=YELLOW).scale(2)
+
+        poly_1 = self.get_poly_d(A, E, I, H, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        poly_2 = self.get_poly_d(E, B, F, I, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        poly_3 = self.get_poly_d(H, I, G, D, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        poly_4 = self.get_poly_d(I, F, C, G, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        fragments = VGroup(poly_1, poly_2, poly_3, poly_4).set_plot_depth(-1)
+
+        lines = VGroup(*[
+            Line(A.get_center(), E.get_center(), color=RED,    stroke_width=5.4).scale(1.012),
+            Line(E.get_center(), B.get_center(), color=RED,    stroke_width=5.4).scale(1.012),
+            Line(B.get_center(), F.get_center(), color=YELLOW, stroke_width=5.4).scale(1.012),
+            Line(F.get_center(), C.get_center(), color=YELLOW, stroke_width=5.4).scale(1.012),
+            Line(C.get_center(), G.get_center(), color=GREEN,  stroke_width=5.4).scale(1.012),
+            Line(G.get_center(), D.get_center(), color=GREEN,  stroke_width=5.4).scale(1.012),
+            Line(D.get_center(), H.get_center(), color=PINK,   stroke_width=5.4).scale(1.012),
+            Line(H.get_center(), A.get_center(), color=PINK,   stroke_width=5.4).scale(1.012),
+        ]).set_plot_depth(2)
+        angles = VGroup(*[
+            Angle(H.get_center(), I.get_center(), E.get_center(), color=RED, radius=0.36),
+            Angle(E.get_center(), I.get_center(), F.get_center(), color=YELLOW, radius=0.36),
+            Angle(F.get_center(), I.get_center(), G.get_center(), color=RED, radius=0.36),
+            Angle(G.get_center(), I.get_center(), H.get_center(), color=YELLOW, radius=0.36),
+        ]).set_plot_depth(4)
+
+        angles_02 = VGroup(*[
+            Angle(H.get_center(), A.get_center(), E.get_center(), color=PINK,   radius=0.36),
+            Angle(E.get_center(), B.get_center(), F.get_center(), color=PINK,   radius=0.36),
+            Angle(F.get_center(), C.get_center(), G.get_center(), color=PINK,   radius=0.36),
+            Angle(G.get_center(), D.get_center(), H.get_center(), color=PINK,   radius=0.36),
+        ]).set_plot_depth(6)
+
+        group_all = VGroup(fragments, lines, angles, angles_02)
+
+        self.add(group_all)
+        group_all_02 = group_all.copy()
+        self.play(Rotating(group_all_02, radians=PI, about_point=lines[0].get_end(), run_time=2))
+        group_all_02.shift(LEFT * 0.01)
+        self.wait(0.5)
+        group_all_03 = group_all.copy()
+        self.play(Rotating(group_all_03, radians=PI, about_point=lines[2].get_end(), run_time=2))
+        group_all_03.shift(UP * 0.01)
+        self.wait(0.5)
+        group_all_04 = group_all_03.copy()
+        self.play(Rotating(group_all_04, radians=PI, about_point=group_all_03[1][4].get_end(), run_time=2))
+        group_all_04.shift(DL * 0.013)
+        self.wait(0.5)
+        # ul = VGroup(fragments[0].set_plot_depth(-1), lines[0].set_plot_depth(1), lines[7].set_plot_depth(1), angles[0].set_plot_depth(2), angles_02[0].set_plot_depth(3))
+        # ur = VGroup(fragments[1].set_plot_depth(-1), lines[1].set_plot_depth(1), lines[2].set_plot_depth(1), angles[1].set_plot_depth(2), angles_02[1].set_plot_depth(3))
+        # dr = VGroup(fragments[3].set_plot_depth(-1), lines[3].set_plot_depth(1), lines[4].set_plot_depth(1), angles[2].set_plot_depth(2), angles_02[2].set_plot_depth(3))
+        # dl = VGroup(fragments[2].set_plot_depth(-1), lines[5].set_plot_depth(1), lines[6].set_plot_depth(1), angles[3].set_plot_depth(2), angles_02[3].set_plot_depth(3))
+        # self.add(*ul, *ur, *dr, *dl)
+        all = VGroup(group_all, group_all_02, group_all_03, group_all_04)
+
+        self.play(all.move_to, ORIGIN)
+        self.wait(0.5)
+
+        v_x, v_y = F.get_center() - H.get_center(), E.get_center() - G.get_center()
+        vects =np.array([-v_x + v_y, v_y, v_x + v_y,
+                         -v_x,            v_x,
+                         -v_x - v_y, -v_y, v_x - v_y]) * 2
+        for vect in vects:
+            all_i = all.copy()
+            self.play(all_i.shift, vect, run_time=1.)
+            self.wait(0.2)
+
+        self.wait(4)
+
+class Tile_02(How_to):
+
+    def construct(self):
+
+        A, B, C, D = Dot(UP * 1.6 + RIGHT * 0.9), Dot(UP * 0.9 + RIGHT * 2.2), Dot(RIGHT * 2.7 + DOWN * 0.1), Dot(DOWN * 0.8)
+        ABCD = VGroup(A, B, C, D).move_to(ORIGIN).scale(1.6)
+        # quadrilateral = self.get_poly_d(A, B, C, D) .add_updater(lambda p: p.become(self.get_poly_d(A, B, C, D, stroke_color=WHITE, stroke_width=8, fill_color=BLUE, fill_opacity=1.0)))
+        quadrilateral = self.get_poly_d(A, B, C, D, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        E = self.get_point_on_line(A, B, 0.5)
+        F = self.get_point_on_line(B, C, 0.5)
+        G = self.get_point_on_line(C, D, 0.5)
+        H = self.get_point_on_line(D, A, 0.5)
+        I = self.intersection(E, G, F, H)
+        cut_line_01 = Line(E, G, color=YELLOW).scale(2)
+        cut_line_02 = Line(H, F, color=YELLOW).scale(2)
+
+        poly_1 = self.get_poly_d(A, E, I, H, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        poly_2 = self.get_poly_d(E, B, F, I, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        poly_3 = self.get_poly_d(H, I, G, D, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        poly_4 = self.get_poly_d(I, F, C, G, stroke_color=WHITE, stroke_width=3.6, fill_color=BLUE, fill_opacity=0.8)
+        fragments = VGroup(poly_1, poly_2, poly_3, poly_4).set_plot_depth(-1)
+
+        lines = VGroup(*[
+            Line(A.get_center(), E.get_center(), color=RED,    stroke_width=5.4).scale(1.012),
+            Line(E.get_center(), B.get_center(), color=RED,    stroke_width=5.4).scale(1.012),
+            Line(B.get_center(), F.get_center(), color=YELLOW, stroke_width=5.4).scale(1.012),
+            Line(F.get_center(), C.get_center(), color=YELLOW, stroke_width=5.4).scale(1.012),
+            Line(C.get_center(), G.get_center(), color=GREEN,  stroke_width=5.4).scale(1.012),
+            Line(G.get_center(), D.get_center(), color=GREEN,  stroke_width=5.4).scale(1.012),
+            Line(D.get_center(), H.get_center(), color=PINK,   stroke_width=5.4).scale(1.012),
+            Line(H.get_center(), A.get_center(), color=PINK,   stroke_width=5.4).scale(1.012),
+        ]).set_plot_depth(2)
+        angles = VGroup(*[
+            Angle(H.get_center(), I.get_center(), E.get_center(), color=RED, radius=0.36),
+            Angle(E.get_center(), I.get_center(), F.get_center(), color=YELLOW, radius=0.36),
+            Angle(F.get_center(), I.get_center(), G.get_center(), color=RED, radius=0.36),
+            Angle(G.get_center(), I.get_center(), H.get_center(), color=YELLOW, radius=0.36),
+        ]).set_plot_depth(4)
+
+        angles_02 = VGroup(*[
+            Angle(H.get_center(), A.get_center(), E.get_center(), color=PINK,   radius=0.36),
+            Angle(E.get_center(), B.get_center(), F.get_center(), color=PINK,   radius=0.36),
+            Angle(F.get_center(), C.get_center(), G.get_center(), color=PINK,   radius=0.36),
+            Angle(G.get_center(), D.get_center(), H.get_center(), color=PINK,   radius=0.36),
+        ]).set_plot_depth(6)
+
+        ul = VGroup(fragments[0].set_plot_depth(-1), lines[0].set_plot_depth(1), lines[7].set_plot_depth(1), angles[0].set_plot_depth(2), angles_02[0].set_plot_depth(3))
+        ur = VGroup(fragments[1].set_plot_depth(-1), lines[1].set_plot_depth(1), lines[2].set_plot_depth(1), angles[1].set_plot_depth(2), angles_02[1].set_plot_depth(3))
+        dr = VGroup(fragments[3].set_plot_depth(-1), lines[3].set_plot_depth(1), lines[4].set_plot_depth(1), angles[2].set_plot_depth(2), angles_02[2].set_plot_depth(3))
+        dl = VGroup(fragments[2].set_plot_depth(-1), lines[5].set_plot_depth(1), lines[6].set_plot_depth(1), angles[3].set_plot_depth(2), angles_02[3].set_plot_depth(3))
+
+        self.add(*ul, *ur, *dr, *dl)
+        self.wait(0.6)
+        self.play(Rotating(ul, radians=PI, about_point=(lines[-1].get_start() + lines[-2].get_end())/2, run_time=1.6, rate_func=smooth))
+        self.wait(0.2)
+        self.play(Rotating(dr, radians=PI, about_point=(lines[3].get_start() + lines[2].get_end())/2, run_time=1.6, rate_func=smooth))
+        self.wait(0.4)
+
+        p1 = DL * 0.8
+        all = VGroup(ul, ur, dr, dl)
+        self.play(ur.shift, p1 - lines[2].get_start() + LEFT * 0.01,
+                  dr.shift, p1 - lines[2].get_start() + LEFT * 0.01,
+                  ul.shift, p1 - lines[0].get_start(),
+                  dl.shift, p1 - lines[0].get_start(), run_time=1.5)
+        self.wait(1)
+
+        all_02 = all.copy()
+        self.play(Rotating(all_02, radians=PI, about_point=lines[5].get_start(), run_time=1.5, rate_func=smooth))
+        all_02.shift(DL * 0.01)
+        self.wait(0.4)
+
+        v_x, v_y = F.get_center() - H.get_center(), E.get_center() - G.get_center()
+
+        all_03 = all.copy()
+        self.play(all_03.shift, v_x + v_y + 0.01 * RIGHT, run_time=1.6)
+        self.wait(0.4)
+
+        all_04 = all_02.copy()
+        self.play(all_04.shift, -v_x + v_y + 0.01 * LEFT, run_time=1.6)
+        self.wait(0.6)
+
+        all_group = VGroup(all, all_02, all_03, all_04)
+        self.play(all_group.move_to, ORIGIN)
+        self.wait(0.5)
+
+        ploy4 = VGroup(all[3], all_02[2], all_03[1], all_04[0])
+        self.play(WiggleOutThenIn(ploy4))
+        self.wait(0.5)
+        vects =np.array([-v_x + v_y, v_y, v_x + v_y,
+                         -v_x,            v_x,
+                         -v_x - v_y, -v_y, v_x - v_y]) * 2
+        for vect in vects:
+            all_i = all_group.copy()
+            self.play(all_i.shift, vect, run_time=0.76)
+            self.wait(0.16)
+
+        self.wait(3.5)
 
