@@ -34,7 +34,7 @@ __P12-P13 利用刚性小球碰撞制作的小动画__: 代码尚未完善，未
 ### 简介与说明：
 在这个视频中试了下三维场景动画，利用方块的堆叠阐释立方和公式的证明思路。其中方块相关的一些类和方法是自己新定义的，目前还是有不少瑕疵。<br>
 ### 对应代码：
-__3d证明动画对应场景__: [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/ThreeD_projects/Sum_of_cubes.py)
+__3d证明动画对应场景__: [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/ThreeD_projects/Sum_of_cubes.py)<br>
 __2d证明动画对应场景__: 未上传<br>
 
 ## 3.[千粉纪念：用数学的方式比个心](https://www.bilibili.com/video/BV1s4411k7Ep/)
@@ -89,7 +89,7 @@ __内旋轮线相关代码__: [代码传送门](https://github.com/cigar666/my_m
 
 ## 10.[心形麦比乌斯带](https://www.bilibili.com/video/BV167411g73H/)
 ### 简介与说明：
- 在三维场景中使用ParametricSurface等绘制了一下麦比乌斯带及心形的麦比乌斯带。
+在三维场景中使用ParametricSurface等绘制了一下麦比乌斯带及心形的麦比乌斯带。
 ### 对应代码：
 [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/ThreeD_projects/Mobius.py)
 
