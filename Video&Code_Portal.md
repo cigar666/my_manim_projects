@@ -2,9 +2,9 @@
 ================================
 # 前言
 我在b站发了不少视频，不少感兴趣的朋友希望获得相关的代码以供学习或参考。在多数情况，我在对应视频的视频简介或视频结尾中已经附上了对应的代码链接。
-但为了更方便大家找到相关代码的位置，我在此按视频更新的时间顺序做一个各视频对源代码的整理和说明。
-需要说明的是，由于版本问题及早期代码中有不少不好的实现方式和不推荐的写法，去年的一些老版本写的代码暂时未上传(或许有部分我会修改后上传)。<br>  
-[__cigar666的b站主页__](https://space.bilibili.com/66806831 '求关注求三连ღ( ´･ᴗ･` )')
+但为了更方便大家找到相关代码的位置，我在此按视频更新的时间顺序做一个各视频对源代码的整理和说明。<br>
+需要说明的是，目前刚开始整理，因此暂时只整理了已上传的代码，而且整理的比较粗糙；由于版本问题及早期代码中有不少不好的实现方式和不推荐的写法，去年的一些老版本写的代码暂时未上传(或许有部分我会修改后上传)。  
+<br>[__cigar666的b站主页__](https://space.bilibili.com/66806831 '求关注求三连ღ( ´･ᴗ･` )')
 
 ## 关于代码使用的相关声明
  1. 代码主要用作大家交流学习使用，欢迎大家进行修改和补充<br>
@@ -13,7 +13,7 @@
  4. 禁止未经允许将本项目的代码用作其他商业行为<br>
 
 # manim视频对应代码传送门
-这部分对应标题即为视频链接。每个视频会有简介和对应代码的传送门。<br>
+这部分对应标题即为视频链接。每个视频会有简介和对应代码的传送门，希望能对大家有所帮助。<br>
 
 ## 1.[我的manim小练习](https://www.bilibili.com/video/BV1E4411J7ot/)<br>
 ### 简介与说明：<br>
@@ -84,20 +84,20 @@ __内旋轮线相关代码__: [代码传送门](https://github.com/cigar666/my_m
 介绍了均值不等式链的几何证明。<br>
 代码中大量使用了updater，但实现得过于粗暴（无脑地复制粘贴修改之后就写好了），更靠谱的做法是利用ValueTracker来更新包含整个图形的VGroup（为了更清晰点可以直接写成一个类，单步的更新可以直接写成类方法来根据一个入口参数生成整个图形）。
 此外，里面的虚线圆之类的直接使用DashedMobject就好了。
-### 对应代码
+### 对应代码：
 [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/Inequality_proved_by_geo.py)
 
 ## 10.[心形麦比乌斯带](https://www.bilibili.com/video/BV167411g73H/)
 ### 简介与说明：
  在三维场景中使用ParametricSurface等绘制了一下麦比乌斯带及心形的麦比乌斯带。
-### 对应代码
+### 对应代码：
 [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/ThreeD_projects/Mobius.py)
 
 ## 11.[摆线拱面积计算](https://www.bilibili.com/video/BV1VE411n7KC/)
 ### 简介与说明：
 介绍了三种方法来计算摆线拱的面积，重点介绍的是前两种几何方法。<br>
 对应的代码并不算特别复杂，其中：利用updater制作了圆在滚动时其余部分的变化更新的动画；利用边数足够多的的Polygon来近似表示了图中带曲边的不规则图形的面积。
-### 对应代码
+### 对应代码：
 [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/Cycloid_Area.py)
 
 ## 12.[三体运动模拟](https://www.bilibili.com/video/BV1mE411u7Mf/)
@@ -114,7 +114,7 @@ __视频中的三体运动相关项目__: [代码传送门](https://github.com/c
 ### 简介与说明：
 这是[manim-kindergarten](https://github.com/manim-kindergarten)的成员合作视频，介绍了其中自然数立方和公式的证明（其中第三个证明和之前的视频中的[自然数立方和3d证明](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/ThreeD_projects/Sum_of_cubes.py)
 相同）
-### 对应代码
+### 对应代码：
 [代码传送门](https://github.com/manim-kindergarten/manim_sandbox/tree/master/videos/HomeworkVol01)
 
 ## 14.[一个和反演变换相关的画圈圈动画](https://www.bilibili.com/video/BV1PV411o7Y9/)
@@ -127,16 +127,15 @@ __视频中的三体运动相关项目__: [代码传送门](https://github.com/c
 ## 15.[矛盾空间三角形小动画](https://www.bilibili.com/video/BV14V411r7S2/)
 ### 简介与说明：
 很短的类似埃舍尔风格的动画，看起来像矛盾的三维空间其实是由二维三角形网格实现的。
-### 对应代码
+### 对应代码：
 [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/Triangle_plotter.py)
 
 ## 16.[如何让凸四边形切两刀后重新拼成平行四边形](https://www.bilibili.com/video/BV1aT4y1E7Ex/)
 ### 简介与说明：
 介绍了如何让任意凸四边形切两刀后重新拼成平行四边形的方法，后面又加了些和四边形密铺相关的小动画。<br>
 代码并不难，用了基本的几何类以及自己写的一些几何类（比如角类Angle）；文字动画用了一些自己写的效果，在[my_text.py](https://github.com/cigar666/my_manim_projects/blob/master/my_utils/my_text.py)里面都有
-### 对应代码
+### 对应代码：
 [代码传送门](https://github.com/cigar666/my_manim_projects/blob/master/my_projects/Jigsaw.py)
-
 
 # 暂时未上传代码的相关manim视频
 
