@@ -10,19 +10,24 @@
 [cigar666的b站主页](https://space.bilibili.com/66806831 '求关注求三连ღ( ´･ᴗ･` )')
 
 ## 一些视频链接如下：
-* [自然数立方和公式的七种妙证](https://www.bilibili.com/video/BV1P741117QQ "manim-kindergarten合作视频")
-* [三体运动模拟（含行星）](https://www.bilibili.com/video/av94380754/ "代码已上传")<br>
-* [小学生也能听懂的摆线拱面积计算](https://www.bilibili.com/video/av92747585/ "代码已上传")<br>
-* [均值不等式链的几何证明](https://www.bilibili.com/video/av87824738/ "代码已上传")<br>
-* [美妙的万花尺与旋轮线（下）](https://www.bilibili.com/video/av83994732/ "代码已上传")<br>
-* [美妙的万花尺与旋轮线（上）](https://www.bilibili.com/video/av78537323/ "代码已上传")<br>
-* [简明易懂的几何级数可视化展示](https://www.bilibili.com/video/av77760417/ "代码已上传")<br>
-* [某科学的傅立叶级数——用上千个旋转向量画一个炮姐](https://www.bilibili.com/video/av75679971/ "代码已上传")<br>
-* [10个优雅的勾股定理妙证（下）](https://www.bilibili.com/video/av74425370/ "代码还未上传")<br>
-* [10个优雅的勾股定理妙证（上）](https://www.bilibili.com/video/av69391597/ "代码还未上传")<br>
-* [【千粉纪念】用数学的方式比个心](https://www.bilibili.com/video/av65253449/ "代码已上传")<br>
 
-  [更多视频...](https://space.bilibili.com/66806831/video '更多视频等着你哟')
+#### [我的b站manim视频](https://space.bilibili.com/66806831/video)<br>
+#### [视频及对应代码索引](https://github.com/cigar666/my_manim_projects/blob/master/Video%26Code_Portal.md)
+
+#### 近期视频链接：
+
+>* [一个和反演变换相关的画圈圈动画](https://www.bilibili.com/video/BV1PV411o7Y9/)
+>* [自然数立方和公式的七种妙证](https://www.bilibili.com/video/BV1P741117QQ "manim-kindergarten合作视频")
+>* [三体运动模拟（含行星）](https://www.bilibili.com/video/av94380754/ "代码已上传")<br>
+>* [小学生也能听懂的摆线拱面积计算](https://www.bilibili.com/video/av92747585/ "代码已上传")<br>
+>* [均值不等式链的几何证明](https://www.bilibili.com/video/av87824738/ "代码已上传")<br>
+>* [美妙的万花尺与旋轮线（下）](https://www.bilibili.com/video/av83994732/ "代码已上传")<br>
+>* [美妙的万花尺与旋轮线（上）](https://www.bilibili.com/video/av78537323/ "代码已上传")<br>
+>* [简明易懂的几何级数可视化展示](https://www.bilibili.com/video/av77760417/ "代码已上传")<br>
+>* [某科学的傅立叶级数——用上千个旋转向量画一个炮姐](https://www.bilibili.com/video/av75679971/ "代码已上传")<br>
+>* [10个优雅的勾股定理妙证（下）](https://www.bilibili.com/video/av74425370/ "代码还未上传")<br>
+>* [10个优雅的勾股定理妙证（上）](https://www.bilibili.com/video/av69391597/ "代码还未上传")<br>
+>* [【千粉纪念】用数学的方式比个心](https://www.bilibili.com/video/av65253449/ "代码已上传")<br>
 
 ## 关于manim的学习和交流
 我们有一个manim交流群（QQ群：862671480），欢迎大家加入交流<br>
