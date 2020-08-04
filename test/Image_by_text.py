@@ -103,17 +103,12 @@ class Test(Scene):
 
 class Show_followers(Scene):
 
-    """
-    建议在渲染时加上
-    """
-
     CONFIG = {
         'image_path': r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\m_set_01.bmp', # 图片路径
         'data_file_path': r"E:\GitHub\manim\my_manim_projects\my_projects\resource\data\FollowerData.csv", # 粉丝数据（csv格式）
-        'line_length': 700, # 每行文字的大致长度，具体粉丝数量不同这个会影响文字排出来的长宽比，
+        'line_length': 600, # 每行文字的大致长度，具体粉丝数量不同这个会影响文字排出来的长宽比，
                             # 因为粉丝id长短不一所以难以给出具体值，建议先低分辨率试好了再调高分辨率
                             # 也可先缩小数据规模来预估参数
-
     }
 
     def construct(self):
@@ -146,7 +141,7 @@ class Show_followers(Scene):
         l_max = 0
         line_num = 0
         text_all = VGroup()
-        for i in range(len(names)):
+        for i in range(1, len(names)):
             text_str_i = '@' + names[i]
             # length_i = GetTextLength(text_str_i)
             length_i = get_text_length(text_str_i)
@@ -162,6 +157,13 @@ class Show_followers(Scene):
                 final_str += text_str + '\n'
                 text_str = ''
                 l_max = 0
+
+        line_num += 1
+        text_str = str(line_num) + ' ' + text_str # + '@cigar666'
+        t = Text(text_str, font='思源黑体 Bold', size=0.08)
+        text_all.add(t)
+        print(l_max)
+        final_str += text_str # + '@cigar666' # 都渲染完了才发现我这行的+@cigar666应该写到上面去，唉蹭合照失败o(╯□╰)o
 
         f = codecs.open('get_loction_of_fans.txt', 'w', encoding='utf-8')
         print(final_str)
@@ -179,3 +181,23 @@ class Show_followers(Scene):
         self.add(text_all)
         self.wait(1)
 
+class Show_followers_PythagoreanTree(Show_followers):
+
+    CONFIG = {
+        'image_path': r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\Test_PythagoreanTree.bmp', # 图片路径
+        'data_file_path': r"E:\GitHub\manim\my_manim_projects\my_projects\resource\data\FollowerData.csv", # 粉丝数据（csv格式）
+        'line_length': 540, # 每行文字的大致长度，具体粉丝数量不同这个会影响文字排出来的长宽比，
+                            # 因为粉丝id长短不一所以难以给出具体值，建议先低分辨率试好了再调高分辨率
+                            # 也可先缩小数据规模来预估参数
+    }
+
+
+class Show_followers_Misaka(Show_followers):
+
+    CONFIG = {
+        'image_path': r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\Misaka.bmp', # 图片路径
+        'data_file_path': r"E:\GitHub\manim\my_manim_projects\my_projects\resource\data\FollowerData.csv", # 粉丝数据（csv格式）
+        'line_length': 540, # 每行文字的大致长度，具体粉丝数量不同这个会影响文字排出来的长宽比，
+                            # 因为粉丝id长短不一所以难以给出具体值，建议先低分辨率试好了再调高分辨率
+                            # 也可先缩小数据规模来预估参数
+    }
