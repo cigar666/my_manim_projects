@@ -73,11 +73,17 @@ class Test(Scene):
 
 class Show_followers(Scene):
 
+    CONFIG = {
+        'image_path': r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\m_set_01.bmp', # 图片路径
+        'data_file_path': r"E:\GitHub\manim\my_manim_projects\my_projects\resource\data\FollowerData.csv", # 粉丝数据（csv格式）
+        'line_length': 600, # 每行文字的大致长度，具体粉丝数量不同这个会影响文字排出来的长宽比，因为粉丝id长短不一所以难以给出具体值，建议先低分辨率试好了再调高分辨率
+    }
+
     def construct(self):
 
         data = []
 
-        f = open(r"E:\GitHub\manim\my_manim_projects\my_projects\resource\data\FollowerData.csv", "r", encoding="utf8")
+        f = open(self.data_file_path, "r", encoding="utf8")
         reader = csv.reader(f)
         print(type(reader))
         for row in reader:
@@ -87,7 +93,7 @@ class Show_followers(Scene):
         fans_name = np.array(data)[:, 1]
         names = sorted(fans_name, reverse=False, key=lambda name: len(name))
 
-        im = plt.imread(r'E:\GitHub\manim\my_manim_projects\my_projects\resource\png_files\m_set_01.bmp')
+        im = plt.imread(self.image_path)
         Z = im[:, :, 0]
         nx, ny = len(Z[0])-1, len(Z)-1
 
@@ -105,7 +111,7 @@ class Show_followers(Scene):
             text_str_i = '@' + names[i]
             num += len(text_str_i)
             text_str += text_str_i
-            if num > 600:
+            if num > int(self.line_length):
                 t = Text(text_str, font='思源黑体 Bold', size=0.09)
                 # set_color4text(t)
                 text_all.add(t)
