@@ -653,3 +653,232 @@ class Ending(Scene):
         self.play(Write(text_05), run_time=1.6)
 
         self.wait(5)
+
+###########################
+from my_manim_projects.my_utils.my_text import *
+
+class Intro_RM_AM(Text4animScene):
+
+    def construct(self):
+
+        font = 'Comic Sans MS'
+
+        t0 = Text('如何用几何方法证明:', font='思源黑体 Bold').set_color_by_t2c({'几何方法': YELLOW}).set_height(0.78)
+        t1 = Text('n个数的平方平均大于等于算术平均', font='思源黑体 Bold').set_color_by_t2c({'n': PINK, '平方平均': BLUE, '算术平均': GREEN}).set_height(0.78)
+        t1.next_to(t0, DOWN * 1.8, aligned_edge=LEFT)
+        text = VGroup(t0, t1)
+
+        t2mt = {'X': 'X', '{X': 'X', '_1': '1', '_2': '2', '_n': 'n', '^2': '2', '}^2': '2', '\\cdots': '...', '\\over': '_', }
+
+        text_1 = MyText('(', '{X', '_1', '}^2', '+', '{X', '_2', '}^2', '+', '\\cdots', '+', '{X', '_n', '}^2', ')', '\\over', 'n', default_font=font).get_new_font_texs(t2mt).set_height(1)
+        text_1[-2].set_width(text_1.get_width() * 1.02).scale([1, 0.07, 1])
+        t = Text('≥', font=font).scale(0.6)
+        text_2 = MyText('X', '_1', '+', 'X', '_2', '+', '\\cdots', '+', 'X', '_n', '\\over', 'n', default_font=font).get_new_font_texs(t2mt).set_height(1)
+        text_2[-2].set_width(text_2.get_width() * 1.02).scale([1, 0.07, 1])
+        text_1.to_corner(LEFT * 1, buff=1), t.next_to(text_1), text_2.next_to(t), text_2.align_to(text_1, DOWN)
+        text_1[-1].scale(1.25).shift(UP * 0.05).set_color(PINK), text_2[-1].scale(1.25).shift(UP * 0.05).set_color(PINK)
+        text_1.set_height(0.95)
+
+        text_1[1:4].set_color(RED), text_1[5:8].set_color(YELLOW), text_1[9].set_color(GREEN), text_1[11:14].set_color(BLUE)
+        text_2[0:2].set_color(RED), text_2[3:5].set_color(YELLOW), text_2[6].set_color(GREEN), text_2[8:10].set_color(BLUE)
+
+        p1, p2, p3 = LEFT * 6.25 + DOWN * 0.51, LEFT * 6.08 + UP * 0.54, LEFT * (5.95 - text_1.get_width()) + UP * 0.54
+        sqrt = VGroup(Line(p1, p2),Line(p2, p3), Dot(p1).set_height(0.035), Dot(p2).set_height(0.035), Dot(p3).set_height(0.035))
+        ineq = VGroup(VGroup(sqrt, text_1), t, text_2).set_width(12.8).move_to(DOWN * 0.64)
+        text.next_to(ineq, UP * 2.5)
+
+        self.ShiftInOneByOne_new(t0, run_speed=0.3, wait_time=0)
+        self.ShiftInOneByOne_new(t1, run_speed=0.25,  wait_time=0.4)
+
+        self.play(Write(ineq), run_time=2.8)
+        self.wait(4)
+
+
+
+class Proof_RM_AM(Text4animScene):
+
+    def construct(self):
+
+        x1, x2, x3, x4 = 1., 1.25, 1.6, 2.
+
+        s1 = Square(fill_color=RED, fill_opacity=0.8).set_height(x1)
+        s2 = Square(fill_color=YELLOW, fill_opacity=0.8).set_height(x2)
+        s3 = Square(fill_color=GREEN, fill_opacity=0.8).set_height(x3)
+        s4 = Square(fill_color=BLUE, fill_opacity=0.8).set_height(x4)
+        line_1 = VGroup(s1, s2, s3, s4).arrange(RIGHT, buff=0, aligned_edge=UP).to_edge(UP * 1.25)
+        line_2, line_3, line_4 = line_1.copy(), line_1.copy(), line_1.copy()
+        s0 = Square(fill_color=LIGHT_GREY, fill_opacity=0.0, stroke_width=0).set_height(x1+x2+x3+x4)
+
+        font = 'Comic Sans MS'
+        t2mt = {'X': 'X', '{X': 'X',  '_1': '1', '_2': '2', '_n': 'n', '}^2': '2'}
+        t_x1 = MyText('X', '_1', default_font=font).get_new_font_texs(t2mt).set_height(0.4)
+        t_x2 = MyText('X', '_2', default_font=font).get_new_font_texs(t2mt).set_height(0.4)
+        t_x3 = Text('...', font=font)
+        t_x4 = MyText('X', '_n', default_font=font).get_new_font_texs(t2mt).set_height(0.4)
+
+        t_s1 = MyText('{X', '_1', '}^2', default_font=font).get_new_font_texs(t2mt).set_height(0.4).move_to(s1)
+        t_s2 = MyText('{X', '_2', '}^2', default_font=font).get_new_font_texs(t2mt).set_height(0.4).move_to(s2)
+        t_s3 = Text('...', font=font).scale(0.5).move_to(s3)
+        t_s4 = MyText('{X', '_n', '}^2', default_font=font).get_new_font_texs(t2mt).set_height(0.4).move_to(s4)
+
+        line_1 = VGroup(VGroup(s1, t_s1), VGroup(s2, t_s2), VGroup(s3, t_s3), VGroup(s4, t_s4)).arrange(RIGHT, buff=0, aligned_edge=UP).to_edge(UP * 1.)
+        line_2, line_3, line_4 = line_1.copy(), line_1.copy(), line_1.copy()
+
+        all = VGroup(line_1, line_2, line_3, line_4)
+        all_r, all_y, all_g, all_b = VGroup(*[all[i][0] for i in range(4)]), VGroup(*[all[i][1] for i in range(4)]), \
+                                     VGroup(*[all[i][2] for i in range(4)]), VGroup(*[all[i][3] for i in range(4)])
+
+        self.wait(0.5)
+        self.play(*[ShowCreation(line_1[i][0]) for i in range(4)], run_time=1.2)
+        self.wait(0.2)
+        self.play(Write(VGroup(t_s1, t_s2, t_s3, t_s4)), run_time=1.8)
+
+        self.wait(0.8)
+
+        self.play(line_2.shift, DOWN * 2.4)
+        self.wait(0.2)
+        self.play(line_2[0].next_to, line_2[-1], RIGHT, {"aligned_edge": UP, "buff": 0})
+        self.wait(0.2)
+        self.play(line_2.shift, x1 * LEFT)
+        self.wait(0.2)
+        self.play(line_2[1].shift, (2.4 - x1) * UP,
+                  line_2[2].shift, (2.4 - x2) * UP,
+                  line_2[3].shift, (2.4 - x3) * UP,
+                  line_2[0].shift, (2.4 - x4) * UP,
+                  )
+        self.wait(1.)
+
+        self.play(line_3.shift, DOWN * 4.)
+        self.wait(0.2)
+        self.play(line_3[0].next_to, line_3[-1], RIGHT, {"aligned_edge": UP, "buff": 0})
+        self.play(line_3[1].next_to, line_3[0], RIGHT, {"aligned_edge": UP, "buff": 0})
+        self.wait(0.2)
+        self.play(line_3.shift, (x1 + x2) * LEFT)
+        self.wait(0.2)
+        self.play(line_3[2].shift, (4. - x1 - x2) * UP,
+                  line_3[3].shift, (4. - x2 - x3) * UP,
+                  line_3[0].shift, (4. - x3 - x4) * UP,
+                  line_3[1].shift, (4. - x4 - x1) * UP,
+                  )
+        self.wait(1.)
+
+        self.play(line_4.shift, DOWN * 5)
+        self.wait(0.2)
+        self.play(line_4[-1].next_to, line_4[0], LEFT, {"aligned_edge": UP, "buff": 0})
+        self.wait(0.2)
+        self.play(line_4.shift, x4 * RIGHT)
+        self.wait(0.2)
+        self.play(line_4[3].shift, (5 - x1 - x2 - x3) * UP,
+                  line_4[0].shift, (5 - x2 - x3 - x4) * UP,
+                  line_4[1].shift, (5 - x3 - x4 - x1) * UP,
+                  line_4[2].shift, (5 - x4 - x1 - x2) * UP,
+                  )
+        self.wait(2)
+        # self.play(all.scale, 0.8, all.to_edge, UP * 1.)
+
+        brace_d = Brace(all, DOWN, buff=0.1)
+        brace_l = Brace(all, LEFT, buff=0.1)
+        t2mt_02 = {'{|': '|', '|': '|', '|}': '|', 'X': 'X', '{X': 'X', '_1': '1', '_2': '2', '_n': 'n', '^2': '2', '}^2': '2', '\\cdots': '...', '\\times': '×', }
+        sum_1 = MyText('|', 'X', '_1', '|', '+', '|', 'X', '_2', '|', '+', '\\cdots', '+', '|', 'X', '_n', '|', default_font=font).get_new_font_texs(t2mt_02).set_height(0.5)
+        sum_1[1:3].set_color(RED), sum_1[6:8].set_color(YELLOW), sum_1[10].set_color(GREEN), sum_1[13:15].set_color(BLUE)
+
+        sum_2 = sum_1.copy().rotate(PI/2)
+
+        sum_1.next_to(brace_d, DOWN, buff=0.1), sum_2.next_to(brace_l, LEFT, buff=0.1)
+        self.play(ShowCreation(brace_d), Write(sum_1), ShowCreation(brace_l), Write(sum_2), run_time=2)
+        self.wait()
+
+        all_with_text = VGroup(all, brace_l, brace_d, sum_1, sum_2, s0.move_to(all))
+        self.play(all_with_text.to_edge, LEFT * 1.2)
+        self.wait()
+
+        text_0 = Text('所有小正方形面积和≥大正方形面积', font='思源黑体 Bold').set_color_by_t2c({'所有小正方形面积和': BLUE, '大正方形面积': GREEN})
+        text_0.set_height(0.36).to_corner(RIGHT * 1. + UP * 1.5)
+
+        text_1 = MyText('n', '\\times', '(', '{X', '_1', '}^2', '+', '{X', '_2', '}^2', '+', '\\cdots', '+', '{X', '_n', '}^2', ')', default_font=font).get_new_font_texs(t2mt_02)
+        text_2 = MyText('(', '|', 'X', '_1', '|', '+', '|', 'X', '_2', '|', '+', '\\cdots', '+', '|', 'X', '_n', '|', ')', '^2', default_font=font).get_new_font_texs(t2mt_02)
+        text_3 = MyText('(', 'X', '_1', '+', 'X', '_2', '+', '\\cdots', '+', 'X', '_n', ')', '^2', default_font=font).get_new_font_texs(t2mt_02)
+        text_1.set_height(0.45)
+        text_1[0].scale(1.25).set_color(PINK), text_1.next_to(text_0, DOWN, aligned_edge=LEFT).shift(RIGHT * 0.5)
+        text_2.set_height(0.45).next_to(text_1, DOWN, aligned_edge=LEFT)
+        text_3.set_height(0.45).next_to(text_2, DOWN, aligned_edge=LEFT)
+
+        text_1[3:6].set_color(RED), text_1[7:10].set_color(YELLOW), text_1[11].set_color(GREEN), text_1[13:16].set_color(BLUE)
+        text_2[2:6].set_color(RED), text_2[7:9].set_color(YELLOW), text_2[11].set_color(GREEN), text_2[14:16].set_color(BLUE)
+        text_3[1:3].set_color(RED), text_3[4:6].set_color(YELLOW), text_3[7].set_color(GREEN), text_3[9:11].set_color(BLUE)
+
+        t4a_0 = self.ShiftInOneByOne_new(text_0, wait_time=0.9)
+        t1 = Text('≥', font=font).scale(0.35).next_to(text_1, RIGHT)
+        t2 = t1.copy().next_to(text_2, RIGHT)
+        self.play(TransformFromCopy(text_0[0:10], text_1), run_time=1.4)
+        self.wait(0.25)
+        self.play(TransformFromCopy(all_r, text_1[3:6]),   run_time=1.)
+        self.wait(0.1)
+        self.play(TransformFromCopy(all_y, text_1[7:10]),  run_time=1.)
+        self.wait(0.1)
+        self.play(TransformFromCopy(all_g, text_1[11]),    run_time=1.)
+        self.wait(0.1)
+        self.play(TransformFromCopy(all_b, text_1[13:16]), run_time=1.)
+        self.wait(1)
+
+        self.play(Write(t1), run_time=0.6)
+        self.play(TransformFromCopy(text_0[11:], text_2), run_time=1.4)
+        self.wait(0.5)
+        s0.set_opacity(0.2)
+        self.play(ReplacementTransform(s0, text_2.copy()), run_time=1.4)
+
+        self.wait()
+        self.play(Write(t2), run_time=0.6)
+        self.wait(0.2)
+        self.play(Write(text_3), run_time=1.8)
+        self.wait(1.2)
+
+        # arrow = Arrow(ORIGIN, DOWN, buff=0, color=YELLOW).next_to(text_3, DOWN * 0.25)
+        arrow = TexMobject('\\mathbf{\\Downarrow}').next_to(text_3, DOWN)
+
+        # text = TexMobject(r'{\sum\limits_{i=1}^{n} {X_i}^2 \over n} \ge \left(\sum\limits_{i=1}^{n} X_i \over n\right)^2').scale(1).next_to(arrow, DOWN * 0.25)
+        text = TexMobject(r'\mathbf{\sqrt{\sum\limits_{i=1}^{n} {x_i}^2 \over n} \ge {\sum\limits_{i=1}^{n} x_i \over n}}').scale(0.95).next_to(arrow, DOWN)
+        sr = SurroundingRectangle(text)
+
+        self.play(ShowCreation(arrow))
+        self.wait(0.4)
+        self.play(Write(text), run_time=2)
+        self.wait(0.2)
+        self.play(ShowCreation(sr))
+        self.wait(0.6)
+
+        checkmark = TexMobject('\\checkmark', color=GREEN).scale(2).next_to(sr, RIGHT)
+        self.play(Write(checkmark), run_time=1.5)
+
+        self.wait(4)
+
+
+class Proof_RM_AM_from2toN(Scene):
+
+    def construct(self):
+
+        s = VGroup(*[self.create_squares(i, l=6.4) for i in range(1,10)])
+        t = VGroup(*[Text('n = %d' % i, font='思源黑体 Bold').set_height(0.6).to_corner(UL * 1.5) for i in range(1,10)])
+        self.play(ShowCreation(s[0]), Write(t[0]))
+        self.wait(0.9)
+        for i in range(8):
+            self.play(ReplacementTransform(s[i], s[i+1]), ReplacementTransform(t[i], t[i+1]), run_time=1.8)
+            self.wait(1.2)
+
+        self.wait(3)
+
+    def create_squares(self, n=4, l=6):
+
+        x = np.array(2 * [0.6 * 1.2 ** i for i in range(n)])
+        colors = color_gradient([RED, YELLOW, GREEN, BLUE], n)
+        squares = VGroup()
+        for i in range(n):
+            line_i = VGroup()
+            for j in range(n):
+                s_ij = Square(fill_color=colors[int((i+j)%n)], fill_opacity=0.8, stroke_width=1. + 8/n).set_height(x[int((i+j)%n)]).to_corner(UL)
+                s_ij.shift(RIGHT * (sum(x[i:i+j])) + DOWN * (sum(x[j:i+j])))
+                line_i.add(s_ij)
+            squares.add(line_i)
+
+        return squares.move_to(ORIGIN).set_height(l)
+
