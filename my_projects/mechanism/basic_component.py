@@ -228,7 +228,7 @@ class Rod(VGroup):
             'radius': 0.15,
         },
         'tip_type_3': {
-            'dot_radius': 0.08,
+            'dot_radius': 0.072,
             'inner_radius': 0.105,
             'outer_radius': 0.15,
         },
@@ -291,7 +291,7 @@ class Rod(VGroup):
         self.add(tip)
         return tip
 
-    def add_tip_2(self, loc):
+    def add_tip_3(self, loc):
         tip = VGroup(Annulus(inner_radius=self.tip_type_3['inner_radius'],
                              outer_radius=self.tip_type_3['outer_radius'],
                              color=self.color, stroke_color=self.color).move_to(loc),
