@@ -219,8 +219,6 @@ class Gear_system(VGroup):
 class Rod(VGroup):
 
     CONFIG = {
-        # 'start': ORIGIN,
-        # 'end': UR,
         'color': BLUE,
         'tip_type_1': {
             'radius': 0.08,
@@ -228,6 +226,11 @@ class Rod(VGroup):
         'tip_type_2': {
             'inner_radius': 0.105,
             'radius': 0.15,
+        },
+        'tip_type_3': {
+            'dot_radius': 0.08,
+            'inner_radius': 0.105,
+            'outer_radius': 0.15,
         },
         'rod_width': 0.09,
         'end_type': [2, 1],
@@ -252,6 +255,8 @@ class Rod(VGroup):
             self.start_tip = self.add_tip_1(start)
         elif self.end_type[0] == 2:
             self.start_tip = self.add_tip_2(start)
+        elif self.end_type[0] == 3:
+            self.start_tip = self.add_tip_3(start)
         else:
             print('tip type error in start point!')
             self.start_tip = Dot(self.start, color=self.color).set_height(self.rod_width)
@@ -260,6 +265,8 @@ class Rod(VGroup):
             self.end_tip = self.add_tip_1(end)
         elif self.end_type[1] == 2:
             self.end_tip = self.add_tip_2(end)
+        elif self.end_type[1] == 3:
+            self.end_tip = self.add_tip_3(end)
         else:
             print('tip type error in end point!')
             self.end_tip = Dot(self.end, color=self.color).set_height(self.rod_width)
@@ -284,7 +291,18 @@ class Rod(VGroup):
         self.add(tip)
         return tip
 
-    def reposition(self, A, B):
+    def add_tip_2(self, loc):
+        tip = VGroup(Annulus(inner_radius=self.tip_type_3['inner_radius'],
+                             outer_radius=self.tip_type_3['outer_radius'],
+                             color=self.color, stroke_color=self.color).move_to(loc),
+                     Dot(loc, color=self.color).set_height(2 * self.tip_type_3['dot_radius']))
+
+        self.add(tip)
+        return tip
+
+    def reposition(self, A, B=None):
+        if type(B) == type(None):
+            B = self.get_end()
         self.shift(A - self.start)
         self.rotate(np.angle(R3_to_complex(B - A)) - self.rod.get_angle(), about_point=A)
 
@@ -337,12 +355,53 @@ class Bar(Rod):
         Rod.__init__(self, start=start, end=end, **kwargs)
 
 
-class Test_rod(Scene):
+def gcd(a, b):
+    while (b!=0):
+        temp = a % b
+        a = b
+        b = temp
+    return a
 
-    def construct(self):
+def lcm(a, b):
+    return a * b / gcd(a, b)
 
-        dot_1 = Dot(LEFT * 2, color=GREEN)
-        rod_1 = Rod(LEFT * 2, LEFT * 2 + RIGHT * 2 * np.sqrt(3) + DOWN * 2)
-        rod_2 = Bar(rod_1.get_end(), 45*DEGREES, 3)
-        self.add(dot_1, rod_1, rod_2)
-        self.wait(2)
+from sympy import Symbol, solve
+
+def solve_2cirlces(O1, O2, r1, r2):
+    x, y = Symbol('x'), Symbol('y')
+    return solve([(x-O1[0]) ** 2 + (y-O1[1]) ** 2 - r1 ** 2,
+                  (x-O2[0]) ** 2 + (y-O2[1]) ** 2 - r2 ** 2],
+                  [x, y])
+
+# from scipy.optimize import fsolve
+# def solve_2cirlces_(O1, O2, r1, r2):
+#
+#     def func(i):
+#         x, y = i[0], i[1]
+#         return [(x-O1[0]) ** 2 + (y-O1[1]) ** 2 - r1 ** 2, (x-O2[0]) ** 2 + (y-O2[1]) ** 2 - r2 ** 2]
+#
+#     return fsolve(func, [0, 0])
+
+# ### test ###
+# O1, O2 = LEFT, RIGHT * 2
+# r1, r2 = np.sqrt(5), np.sqrt(2)
+#
+# print(solve_2cirlces(O1, O2, r1, r2))
+# print(solve_2cirlces_(O1, O2, r1, r2))
+
+
+def tuple2R3(t):
+    return np.array(list(t) + [0])
+
+def solve_2rods(rod1, rod2):
+    p1, p2 = solve_2circles(rod1.get_start(), rod2.get_start(), rod1.get_rod_length(), rod2.get_rod_length())
+    return [tuple2R3(p1), tuple2R3(p2)]
+
+def solve_2rods_new(rod1, rod2, err=1e-4):
+    # i = 0
+    while get_norm(rod1.get_end() - rod2.get_end()) > err:
+        rod1.reposition(rod1.get_start(), rod2.get_end())
+        rod2.reposition(rod2.get_start(), rod1.get_end())
+        # print('i=%d, error=%.5f' % (i, get_norm(rod1.get_end() - rod2.get_end())))
+        # i += 1
+
