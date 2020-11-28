@@ -16,6 +16,7 @@
 
 #### 近期视频链接：
 
+>* [几何妙证：n个数的平方平均大于等于算术平均](https://www.bilibili.com/video/BV1HK411T7us/)
 >* [一个和反演变换相关的画圈圈动画](https://www.bilibili.com/video/BV1PV411o7Y9/)
 >* [自然数立方和公式的七种妙证](https://www.bilibili.com/video/BV1P741117QQ "manim-kindergarten合作视频")
 >* [三体运动模拟（含行星）](https://www.bilibili.com/video/av94380754/ "代码已上传")<br>
@@ -70,4 +71,5 @@
 * [鹤翔万里的github中的manim项目](https://github.com/Tony031218/manim_projects)<br>
 * [有一种悲伤叫颓废的github](https://github.com/136108Haumea)<br>
 * [pdcxs的github中的manim项目](https://github.com/pdcxs/ManimProjects)
+* [manim中文教程文档](https://manim.ml/)
 * [cai-hust整理的manim中文文档](https://github.com/cai-hust/manim-tutorial-CN)<br>
