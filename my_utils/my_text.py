@@ -39,6 +39,10 @@ class MyText(TexMobject):
             #     tex_new.set_width(self[i].get_width(), stretch=True)
             if tex == '-':
                 tex_new.set_width(self[i].get_width(), stretch=True).scale([0.8, 2.4, 1])
+            elif tex == '+':
+                tex_new.set_width(self[i].get_width(), stretch=True).scale(0.8)
+            elif tex == '×':
+                tex_new.set_width(self[i].get_width(), stretch=True).scale(0.9)
             elif tex == '=':
                 tex_new.set_width(self[i].get_width(), stretch=True).scale([0.9, 1.35, 1])
 
@@ -216,3 +220,28 @@ class Text4animScene(Scene):
             self.add(num[i])
             self.play(WiggleOutThenIn(num[i]), ShowCreationThenDestruction(circle), run_time=1)
             self.remove(num[i])
+
+class MyTitle(Text):
+
+    CONFIG = {
+        "scale_factor": 1,
+        "include_underline": True,
+        "underline_width": FRAME_WIDTH - 2,
+        # This will override underline_width
+        "match_underline_width_to_text": False,
+        "underline_buff": MED_SMALL_BUFF,
+    }
+
+    def __init__(self, *text, **kwargs):
+        Text.__init__(self, *text, **kwargs)
+        self.scale(self.scale_factor)
+        self.to_edge(UP)
+        if self.include_underline:
+            underline = Line(LEFT, RIGHT)
+            underline.next_to(self, DOWN, buff=self.underline_buff)
+            if self.match_underline_width_to_text:
+                underline.match_width(self)
+            else:
+                underline.set_width(self.underline_width)
+            self.add(underline)
+            self.underline = underline
