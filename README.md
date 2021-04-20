@@ -15,7 +15,7 @@
 #### [视频及对应代码索引](https://github.com/cigar666/my_manim_projects/blob/master/Video%26Code_Portal.md)
 
 #### 近期视频链接：
-
+>* [如何用尺规作图画一个苹果logo](https://www.bilibili.com/video/BV1UB4y1w7nU/)
 >* [几何妙证：n个数的平方平均大于等于算术平均](https://www.bilibili.com/video/BV1HK411T7us/)
 >* [一个和反演变换相关的画圈圈动画](https://www.bilibili.com/video/BV1PV411o7Y9/)
 >* [自然数立方和公式的七种妙证](https://www.bilibili.com/video/BV1P741117QQ "manim-kindergarten合作视频")
@@ -50,7 +50,7 @@
 在使用中针对你可能会出现的常见问题，这里有一个文档：[manim常见问题v2.2](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf)，如果无法在线打开预览，[点此下载](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf?raw=True)<br>
 
 ### 中文文档
-- [最全最实用的manim中文文档](https://manim.ml)
+- [最全最实用的manim中文文档](https://manim.wiki)
 - [Tridu整理、翻译自英文文档的中文文档](https://manim-kindergarten.github.io/manim_document_zh/)
 - [manim_sandbox中的wiki（未完成，仅一部分）](https://github.com/manim-kindergarten/manim_sandbox/wiki)
 - [manim常见问题v2.2](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf)
@@ -68,10 +68,9 @@
 ----
 
 * [manim-kindergarten中整理的一些代码](https://github.com/manim-kindergarten/manim_sandbox 'manim sandbox')<br>
-* [中文文档manim.ml](https://manim.ml)<br>
+* [中文文档manim.wiki](https://manim.wiki)<br>
 * [鹤翔万里的b站主页](https://space.bilibili.com/171431343)<br>
 * [鹤翔万里的github中的manim项目](https://github.com/Tony031218/manim_projects)<br>
 * [有一种悲伤叫颓废的github](https://github.com/136108Haumea)<br>
 * [pdcxs的github中的manim项目](https://github.com/pdcxs/ManimProjects)
-* [manim中文教程文档](https://manim.ml/)
 * [cai-hust整理的manim中文文档](https://github.com/cai-hust/manim-tutorial-CN)<br>
