@@ -2,14 +2,14 @@
 
 ## CONTENTS
 
-- [0.Brief Intro](##0.Brief Intro )
-- [1. Documents](##1. Documents)
-  - [1.1 `CONFIG`](###1.1 `CONFIG` )
-  - [1.2 Most Commonly Used Methods](###1.2 Most Commonly Used Methods)
-- [2.Demos](##2.Demos)
-  - [2.1. Perpendicular Bisector of a Line](###2.1. Perpendicular Bisector of a Line)
-  - [2.2.Tangent Circle](###2.2.Tangent Circle)
-  - [2.3 Equal Angle](###2.3 Equal Angle)
+- [0. Brief Intro](## 0.Brief Intro)
+- [1. Documents](## 1.Documents)
+  - [1.1 `CONFIG`](### 1.1 `CONFIG`)
+  - [1.2 Most Commonly Used Methods](### 1.2 Most Commonly Used Methods)
+- [2. Demos](## 2.Demos)
+  - [2.1 Perpendicular Bisector of a Line](### 2.1 Perpendicular Bisector of a Line)
+  - [2.2 Tangent Circle](### 2.2 Tangent Circle)
+  - [2.3 Equal Angle](### 2.3 Equal Angle)
 
 ## 0.Brief Intro
 
@@ -23,7 +23,7 @@ BTW, I've used `CompassAndRulerScene` to make a nice video to show how to draw a
 
 [如何使用尺规作图画苹果logo / how to draw an apple logo with compass and ruler](https://www.bilibili.com/video/BV1UB4y1w7nU/)
 
-## 1. Documents
+## 1.Documents
 
 This part is some documents of `DrawingScene`.
 
@@ -308,7 +308,7 @@ class Perpendicular_bisector(CompassAndRulerScene):
 
  
 
-### 2.2.Tangent Circle
+### 2.2 Tangent Circle
 
 **The animation of drawing tangent circle:**
 ![tangent circle](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/media/Tangent_circle.gif)
