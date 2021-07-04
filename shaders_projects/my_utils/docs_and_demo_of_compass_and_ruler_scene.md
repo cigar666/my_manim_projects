@@ -13,7 +13,7 @@
 
 ## 0.Brief Intro
 
-In order to generate the animation of drawing with compass and ruler by manim,  I wrote compass_and_ruler_scene.py. 
+In order to generate the animation of drawing with compass and ruler by manim,  I wrote [compass_and_ruler_scene.py](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/my_utils/compass_and_ruler_scene.py). 
 
 It mainly consists of two classes: `Compass` and `DrawingScene`.We can create animations by inheriting `DrawingScene` (also be renamed as `CompassAndRulerScene`)  and overwrite the `construct` method. 
 
@@ -113,7 +113,8 @@ All these methods leads to at least one animation, you can use `rate_func` or `r
 
 ## 2.Demos
 
-I assume that you have install the [manim](https://github.com/3b1b/manim) (**shaders version**) and have some basic knowledge about it.  And these demos will help you to get familiar with the usage of  related methods.
+I assume that you have install the [manim](https://github.com/3b1b/manim) (**shaders version**) and have some basic knowledge about it. And these demos will help you to get familiar with the usage of  related methods.
+[The source code of the demos](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/my_utils/Demo_compass_and_ruler.py)
 
 ### 2.1. Perpendicular Bisector of a Line
 
@@ -121,9 +122,8 @@ In this demo we'll create the animation of drawing the perpendicular bisector of
 
 **The animation of drawing the perpendicular bisector:**
 
-<iframe      width="800"      height="450"      src="https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/media/Equal_angle.mp4"     frameborder="0"      allowfullscreen> </iframe>
+![perpendicular bisector](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/media/Perpendicular_bisctor.gif)
 
-[animation of drawing perpendicular bisector](media/Perpendicular_bisector.mp4)
 
 #### a. create a new file and then import
 
@@ -311,8 +311,7 @@ class Perpendicular_bisector(CompassAndRulerScene):
 ### 2.2.Tangent Circle
 
 **The animation of drawing tangent circle:**
-
-
+![tangent circle](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/media/Tangent_circle.gif)
 
 **The complete code is shown below:**
 
@@ -368,7 +367,7 @@ class Tangent_circle(CompassAndRulerScene):
 ### 2.3 Equal Angle
 
 **The animation of drawing the equal angle of a known angle:**
-
+![equal angle](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/media/Equal_angle.gif)
 
 
 **The complete code is shown below:**
