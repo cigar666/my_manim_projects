@@ -1,16 +1,5 @@
 # Docs and Demo of  `compass_and_ruler_scene`
 
-## CONTENTS
-
-- [0. Brief Intro](## 0.Brief Intro)
-- [1. Documents](## 1.Documents)
-  - [1.1 `CONFIG`](### 1.1 `CONFIG`)
-  - [1.2 Most Commonly Used Methods](### 1.2 Most Commonly Used Methods)
-- [2. Demos](## 2.Demos)
-  - [2.1 Perpendicular Bisector of a Line](### 2.1 Perpendicular Bisector of a Line)
-  - [2.2 Tangent Circle](### 2.2 Tangent Circle)
-  - [2.3 Equal Angle](### 2.3 Equal Angle)
-
 ## 0.Brief Intro
 
 In order to generate the animation of drawing with compass and ruler by manim,  I wrote [compass_and_ruler_scene.py](https://github.com/cigar666/my_manim_projects/blob/master/shaders_projects/my_utils/compass_and_ruler_scene.py). 
