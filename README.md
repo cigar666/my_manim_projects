@@ -49,10 +49,10 @@
 
 在使用中针对你可能会出现的常见问题，这里有一个文档：[manim常见问题v2.2](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf)，如果无法在线打开预览，[点此下载](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf?raw=True)<br>
 
-### 中文文档
-- [最全最实用的manim中文文档](https://manim.wiki)
+### manim文档
+- [manim kindergarten整理的文档](https://manim.org.cn/docs.html)
+- [manim community文档（英文版）](https://docs.manim.community/en/latest/)
 - [Tridu整理、翻译自英文文档的中文文档](https://manim-kindergarten.github.io/manim_document_zh/)
-- [manim_sandbox中的wiki（未完成，仅一部分）](https://github.com/manim-kindergarten/manim_sandbox/wiki)
 - [manim常见问题v2.2](https://github.com/manim-kindergarten/manim_sandbox/blob/master/documents/manim%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98v2.2.pdf)
 
 ## 关于代码使用的相关声明
@@ -66,9 +66,8 @@
 
 相关链接：
 ----
-
+* [manim kindergarten主页](https://manim.org.cn/)<br>
 * [manim-kindergarten中整理的一些代码](https://github.com/manim-kindergarten/manim_sandbox 'manim sandbox')<br>
-* [中文文档manim.wiki](https://manim.wiki)<br>
 * [鹤翔万里的b站主页](https://space.bilibili.com/171431343)<br>
 * [鹤翔万里的github中的manim项目](https://github.com/Tony031218/manim_projects)<br>
 * [有一种悲伤叫颓废的github](https://github.com/136108Haumea)<br>
